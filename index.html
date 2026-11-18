@@ -1,0 +1,3047 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="description" content="Reggu BEANS UAT API documentation with request and response examples"/>
+<title>Reggu ↔ BEANS API Interface Specification | UAT</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,600;8..60,700&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#fff; --ink:#102033; --muted:#5a6b7d; --line:#d9e3ef;
+  --soft:#f7faff; --accent:#155eef; --accent-dark:#1046b8;
+  --get:#067647; --post:#155eef; --put:#b54708; --patch:#6941c6;
+  --ok:#067647; --bad:#b42318;
+  --mono:"IBM Plex Mono",ui-monospace,Menlo,monospace;
+  --sans:"IBM Plex Sans Thai","IBM Plex Sans",system-ui,sans-serif;
+  --serif:"Source Serif 4",Georgia,"Times New Roman",serif;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;color:var(--ink);background:#fff;font:15.5px/1.55 var(--sans)}
+a{color:var(--accent-dark);text-decoration:none}
+a:hover{text-decoration:underline}
+.layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:100vh}
+.side{position:sticky;top:0;height:100vh;overflow:auto;border-right:1px solid var(--line);background:#fbfcfe;padding:1.25rem 1rem 2rem}
+.side .doc-id{font:700 .68rem/1 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+.side h1{font:600 1.15rem/1.25 var(--serif);margin:.45rem 0 .2rem}
+.side .sub{color:var(--muted);font-size:.82rem;margin:0 0 .9rem}
+.lang{display:flex;gap:.25rem;background:#fff;border:1px solid var(--line);border-radius:8px;padding:3px;margin-bottom:1rem}
+.lang button{flex:1;border:0;background:transparent;border-radius:6px;padding:.42rem .4rem;font:700 .78rem var(--sans);color:var(--muted);cursor:pointer}
+.lang button.active{background:var(--accent);color:#fff}
+.nav h2{font:700 .68rem/1 var(--sans);letter-spacing:.06em;text-transform:uppercase;color:#7a8ba0;margin:1rem 0 .35rem;padding:0 .35rem}
+.nav a{display:block;padding:.34rem .4rem;border-radius:6px;color:#243447;font-size:.8rem;text-decoration:none}
+.nav a:hover{background:#eef4ff}
+.nav .m{display:inline-block;min-width:3rem;font:600 .66rem var(--mono);color:var(--accent)}
+.main{padding:1.5rem 2rem 3rem;max-width:980px}
+.cover{border:1px solid var(--line);border-radius:12px;padding:1.5rem 1.6rem;background:linear-gradient(180deg,#f8fbff,#fff);margin-bottom:1.1rem}
+.cover h1{font:600 1.85rem/1.2 var(--serif);margin:0 0 .55rem;color:#0b1f3a}
+.cover .lead{margin:0;color:#334155;max-width:68ch}
+.meta{display:grid;grid-template-columns:repeat(4,1fr);gap:.6rem;margin-top:1.15rem}
+.meta .cell{border:1px solid var(--line);border-radius:8px;padding:.65rem .7rem;background:#fff}
+.meta .k{font:700 .68rem/1 var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.meta .v{margin-top:.28rem;font-size:.86rem}
+.badge{display:inline-block;padding:.12rem .45rem;border-radius:999px;background:#ecfdf3;color:#067647;font:700 .72rem var(--sans);border:1px solid #abefc6}
+section.block{border:1px solid var(--line);border-radius:12px;padding:1.15rem 1.25rem;margin:0 0 1rem;background:#fff}
+section.block>h2{font:600 1.2rem/1.3 var(--serif);margin:0 0 .7rem;padding-bottom:.55rem;border-bottom:1px solid var(--line)}
+section.block h3{font:600 .98rem/1.3 var(--sans);color:#1046b8;margin:1rem 0 .4rem}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:.65rem}
+.kv .box{background:var(--soft);border:1px solid var(--line);border-radius:8px;padding:.7rem .75rem}
+.kv .k{font:700 .68rem var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.kv .v{font:500 .84rem var(--mono);margin-top:.22rem;word-break:break-all}
+table{width:100%;border-collapse:collapse;font-size:.88rem}
+th,td{border-bottom:1px solid var(--line);padding:.5rem .55rem;text-align:left;vertical-align:top}
+th{background:#f3f7fd;font:700 .68rem var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.callout{border-left:3px solid #f79009;background:#fffaeb;color:#7a4100;padding:.65rem .75rem;border-radius:0 8px 8px 0;font-size:.86rem;margin:.75rem 0 0}
+.sec-title{font:600 1.25rem/1.3 var(--serif);margin:1.4rem 0 .7rem}
+.ep{border:1px solid var(--line);border-radius:12px;margin:0 0 .9rem;overflow:hidden;background:#fff}
+.ep-h{display:flex;flex-wrap:wrap;gap:.45rem;align-items:center;padding:.85rem 1rem;background:#f8fafc;border-bottom:1px solid var(--line)}
+.ep-h h3{margin:0;flex:1 1 240px;font:600 .98rem/1.35 var(--sans)}
+.method{font:700 .68rem var(--mono);padding:.16rem .4rem;border-radius:4px;border:1px solid transparent}
+.method.GET{color:var(--get);background:#ecfdf3;border-color:#abefc6}
+.method.POST{color:var(--post);background:#eff4ff;border-color:#b2ccff}
+.method.PUT{color:var(--put);background:#fffaeb;border-color:#fedf89}
+.method.PATCH{color:var(--patch);background:#f4f3ff;border-color:#d9d6fe}
+.http{font:700 .7rem var(--mono);padding:.14rem .38rem;border-radius:4px;background:#eef2f6;color:#344054}
+.http.ok{background:#ecfdf3;color:#067647}
+.http.err{background:#fef3f2;color:#b42318}
+.path{font:500 .78rem/1.4 var(--mono);background:#f2f6fc;border:1px solid var(--line);border-radius:6px;padding:.4rem .55rem;margin:.15rem 0 .7rem;word-break:break-all;color:#1d2939}
+.ep-b{padding:.9rem 1rem 1rem}
+.desc{margin:0 0 .8rem;color:#344054;font-size:.9rem;white-space:pre-wrap}
+.lbl{display:flex;justify-content:space-between;font:700 .68rem var(--sans);letter-spacing:.04em;text-transform:uppercase;color:var(--muted);margin:0 0 .3rem}
+.hdrs{font:500 .78rem var(--mono);background:#f8fafc;border:1px solid var(--line);border-radius:8px;padding:.6rem .7rem;margin:0 0 .75rem}
+.hdrs div{margin:.1rem 0}
+.hk{color:var(--accent-dark);font-weight:700}
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:.7rem}
+pre.json{margin:0;max-height:400px;overflow:auto;background:#0b1220;color:#e4eefc;border:1px solid #1f2a44;border-radius:8px;padding:.75rem .8rem;font:500 .74rem/1.45 var(--mono)}
+.note{font-size:.8rem;color:#7a4100;background:#fffaeb;border:1px solid #fedf89;border-radius:6px;padding:.45rem .55rem;margin:0 0 .45rem}
+.empty{color:#98a2b3;font-style:italic;font-size:.86rem}
+.group{font:700 .78rem var(--sans);color:#475467;margin:1.1rem 0 .45rem;text-transform:uppercase;letter-spacing:.04em}
+footer{margin-top:1.5rem;padding-top:.8rem;border-top:1px solid var(--line);color:var(--muted);font-size:.78rem}
+html[lang=en] .th{display:none!important}
+html[lang=th] .en{display:none!important}
+@media(max-width:960px){
+  .layout{grid-template-columns:1fr}
+  .side{position:relative;height:auto;max-height:280px}
+  .meta,.kv,.pair{grid-template-columns:1fr}
+  .main{padding:1rem}
+}
+@media print{
+  .side{display:none}
+  .layout{grid-template-columns:1fr}
+  pre.json{max-height:none}
+}
+</style>
+</head>
+<body>
+<div class="layout">
+<aside class="side">
+  <div class="doc-id">DOC-API-UAT-001</div>
+  <h1>Reggu ↔ BEANS</h1>
+  <p class="sub"><span class="en">API Interface Specification</span><span class="th">ข้อกำหนดส่วนต่อประสาน API</span></p>
+  <div class="lang" role="group" aria-label="Language">
+    <button type="button" id="btn-en" class="active" onclick="setLang('en')">English</button>
+    <button type="button" id="btn-th" onclick="setLang('th')">ไทย</button>
+  </div>
+  <nav class="nav">
+    <h2>Contents</h2>
+    <a href="#cover"><span class="en">Document control</span><span class="th">ควบคุมเอกสาร</span></a>
+    <a href="#intro"><span class="en">1. Scope</span><span class="th">1. ขอบเขต</span></a>
+    <a href="#auth"><span class="en">2. Security</span><span class="th">2. ความมั่นคงปลอดภัย</span></a>
+    <a href="#codes"><span class="en">3. Status model</span><span class="th">3. แบบจำลองสถานะ</span></a>
+    <a href="#evidence"><span class="en">4. Verification</span><span class="th">4. การทวนสอบ</span></a>
+    <a href="#endpoints"><span class="en">5. Operations</span><span class="th">5. การทำงานของ API</span></a>
+    <a href="#notes"><span class="en">6. Compliance notes</span><span class="th">6. หมายเหตุการปฏิบัติตามมาตรฐาน</span></a>
+<h2><span class="en">1. Gateway — Reggu</span><span class="th">1. Gateway — Reggu</span></h2><a href="#ep-01"><span class="m">POST</span> <span class="en">0 Verify POS / shop</span><span class="th">0 verify</span></a><a href="#ep-02"><span class="m">POST</span> <span class="en">0 Verify — invalid API key → 401</span><span class="th">0 verify — key ผิด → 401</span></a><a href="#ep-03"><span class="m">POST</span> <span class="en">3 Submit order — simple item (uatcopy)</span><span class="th">3 submit — simple ข้อมูลจริง (uatcopy)</span></a><a href="#ep-04"><span class="m">GET</span> <span class="en">3.1 Get order</span><span class="th">3.1 Get Order</span></a><a href="#ep-05"><span class="m">GET</span> <span class="en">3.1 Get order — not found → 303</span><span class="th">3.1 Get Order — ไม่มี order → 303</span></a><a href="#ep-06"><span class="m">PATCH</span> <span class="en">8 Customer cancel</span><span class="th">8 CustomerCancel</span></a><a href="#ep-07"><span class="m">PATCH</span> <span class="en">8 Customer cancel — missing OrderNo → …</span><span class="th">8 CustomerCancel — ไม่ส่ง OrderNo → 20…</span></a><a href="#ep-08"><span class="m">GET</span> <span class="en">10 Item availability — by merchantId</span><span class="th">10 item availability — merchantId</span></a><a href="#ep-09"><span class="m">GET</span> <span class="en">10 Item availability — missing merchan…</span><span class="th">10 item availability — ไม่ส่ง merchant…</span></a><h2><span class="en">2. Gateway — POS</span><span class="th">2. Gateway — POS</span></h2><a href="#ep-10"><span class="m">POST</span> <span class="en">POS 0 Create order for POS workflow (u…</span><span class="th">POS 0 submit order ใหม่ให้ POS (uatcop…</span></a><a href="#ep-11"><span class="m">GET</span> <span class="en">POS 0 Resolve gateway OrderId by Order…</span><span class="th">POS 0 หา OrderId ของ gateway จาก Order…</span></a><a href="#ep-12"><span class="m">GET</span> <span class="en">POS GET order (before amendment)</span><span class="th">POS GET order (ก่อนแก้)</span></a><a href="#ep-13"><span class="m">PUT</span> <span class="en">PUT Amend order — Total ≤ amount paid</span><span class="th">PUT orderTransaction edit — Total ≤ ยอ…</span></a><a href="#ep-14"><span class="m">PUT</span> <span class="en">PUT Amend order — Total &gt; amount paid …</span><span class="th">PUT orderTransaction edit — Total &gt; ยอ…</span></a><a href="#ep-15"><span class="m">PATCH</span> <span class="en">PATCH Order status — preparing</span><span class="th">PATCH status — preparing</span></a><a href="#ep-16"><span class="m">PATCH</span> <span class="en">PATCH Order status — complete</span><span class="th">PATCH status — complete</span></a><a href="#ep-17"><span class="m">PATCH</span> <span class="en">PATCH Order status — cancel</span><span class="th">PATCH status — cancel</span></a><a href="#ep-18"><span class="m">GET</span> <span class="en">Payment mapping — GET</span><span class="th">payment mapping — GET</span></a><a href="#ep-19"><span class="m">GET</span> <span class="en">Partner webhook — GET</span><span class="th">partner webhook — GET</span></a><a href="#ep-20"><span class="m">GET</span> <span class="en">Partner webhook — branch POS key → 403</span><span class="th">partner webhook — key ของ POS สาขา → 4…</span></a><a href="#ep-21"><span class="m">GET</span> <span class="en">Partner registration — GET</span><span class="th">partner registration — GET</span></a><h2><span class="en">3. HQ API — Branches</span><span class="th">3. HQ API — สาขา</span></h2><a href="#ep-22"><span class="m">GET</span> <span class="en">1.1 Online-order branches — filter by …</span><span class="th">1.1 branches — filter branchcode</span></a><a href="#ep-23"><span class="m">GET</span> <span class="en">1.1 Online-order branches — invalid me…</span><span class="th">1.1 branches — merchantId=abc → 201</span></a><h2><span class="en">3. HQ API — Quicksale</span><span class="th">3. HQ API — Quicksale</span></h2><a href="#ep-24"><span class="m">GET</span> <span class="en">1.2 Quicksale menu — by branchcode</span><span class="th">1.2 quicksale — branchcode</span></a><h2><span class="en">3. HQ API — Promotions</span><span class="th">3. HQ API — โปรโมชัน</span></h2><a href="#ep-25"><span class="m">GET</span> <span class="en">1.3 Promotions — by branchcode</span><span class="th">1.3 promotion — branchcode</span></a><h2><span class="en">3. HQ API — Authentication negatives</span><span class="th">3. HQ API — กรณียืนยันตัวตนไม่ผ่าน</span></h2><a href="#ep-26"><span class="m">GET</span> <span class="en">N15 Authentication — invalid key</span><span class="th">N15 — key ผิด</span></a><h2><span class="en">5. HQ API — UAT pricing</span><span class="th">5. HQ API — คำนวณราคา UAT</span></h2><a href="#ep-27"><span class="m">POST</span> <span class="en">2B Price calculate — plain basket (UAT…</span><span class="th">2B calculate — plain (UAT)</span></a><a href="#ep-28"><span class="m">POST</span> <span class="en">2B Price calculate — promotion + coupo…</span><span class="th">2B calculate — promo + coupon (UAT)</span></a><a href="#ep-29"><span class="m">POST</span> <span class="en">2B Price calculate — coupon not found …</span><span class="th">2B calculate — คูปองไม่พบ → 311 (UAT)</span></a><a href="#ep-30"><span class="m">POST</span> <span class="en">2B Price calculate — promotion not app…</span><span class="th">2B calculate — โปรใช้กับตะกร้านี้ไม่ได…</span></a><a href="#ep-31"><span class="m">POST</span> <span class="en">2B Price calculate — unknown itemcode …</span><span class="th">2B calculate — itemcode ไม่มี → 301 (U…</span></a><a href="#ep-32"><span class="m">POST</span> <span class="en">2A Available discounts — 3-line basket…</span><span class="th">2A discounts — ตะกร้า 3 บรรทัด (UAT)</span></a>
+  </nav>
+</aside>
+<main class="main">
+  <header class="cover" id="cover">
+    <h1>
+      <span class="en">API Interface Specification</span>
+      <span class="th">ข้อกำหนดส่วนต่อประสาน API</span>
+    </h1>
+    <p class="lead en">Formal reference for the Reggu ↔ BEANS UAT integration, including authentication, status conventions, and representative request/response payloads captured from an automated verification run.</p>
+    <p class="lead th">เอกสารอ้างอิงอย่างเป็นทางการสำหรับการเชื่อมต่อ Reggu ↔ BEANS บน UAT ครอบคลุมการยืนยันตัวตน แบบจำลองสถานะ และตัวอย่าง payload request/response จากรอบการทวนสอบอัตโนมัติ</p>
+    <div class="meta">
+      <div class="cell"><div class="k">Document ID</div><div class="v">DOC-API-UAT-001</div></div>
+      <div class="cell"><div class="k"><span class="en">Version</span><span class="th">รุ่น</span></div><div class="v">1.0</div></div>
+      <div class="cell"><div class="k"><span class="en">Effective date</span><span class="th">วันที่มีผล</span></div><div class="v">2026-11-18</div></div>
+      <div class="cell"><div class="k"><span class="en">Classification</span><span class="th">ชั้นความลับ</span></div><div class="v"><span class="en">Internal / Partner UAT</span><span class="th">ภายใน / Partner UAT</span></div></div>
+      <div class="cell"><div class="k"><span class="en">Environment</span><span class="th">สภาพแวดล้อม</span></div><div class="v">UAT</div></div>
+      <div class="cell"><div class="k"><span class="en">Verification</span><span class="th">ผลการทวนสอบ</span></div><div class="v"><span class="badge">PASS 66/66</span></div></div>
+      <div class="cell"><div class="k"><span class="en">Assertions</span><span class="th">Assertions</span></div><div class="v">154 / 0 failed</div></div>
+      <div class="cell"><div class="k"><span class="en">Language</span><span class="th">ภาษา</span></div><div class="v">EN / TH</div></div>
+    </div>
+  </header>
+
+  <section class="block" id="intro">
+    <h2><span class="en">1. Scope and system context</span><span class="th">1. ขอบเขตและบริบทของระบบ</span></h2>
+    <p class="en">This document describes the HTTP JSON interfaces used between Reggu and BEANS on the User Acceptance Testing (UAT) environment. It is intended for integration engineers, QA, and partner technical review.</p>
+    <p class="th">เอกสารนี้อธิบายส่วนต่อประสาน HTTP JSON ระหว่าง Reggu กับ BEANS บนสภาพแวดล้อม UAT สำหรับวิศวกรเชื่อมต่อ ฝ่าย QA และการทบทวนทางเทคนิคของพาร์ทเนอร์</p>
+    <div class="kv" style="margin-top:.8rem">
+      <div class="box"><div class="k">Gateway base URL</div><div class="v">http://infosever.thaiddns.com:8096</div></div>
+      <div class="box"><div class="k">HQ API base URL</div><div class="v">http://infosever.thaiddns.com:8095</div></div>
+    </div>
+    <h3><span class="en">1.1 Interface consumers</span><span class="th">1.1 ผู้ใช้งานส่วนต่อประสาน</span></h3>
+    <table>
+      <thead><tr><th><span class="en">Consumer</span><span class="th">ผู้ใช้</span></th><th><span class="en">Path prefix</span><span class="th">คำนำหน้าพาธ</span></th><th><span class="en">Credential</span><span class="th">ข้อมูลรับรอง</span></th></tr></thead>
+      <tbody>
+        <tr><td>Reggu application</td><td><code>/api/gw/*</code></td><td><code>key</code> (Reggu)</td></tr>
+        <tr><td>POS / branch systems</td><td><code>/api/orderTransaction/*</code></td><td><code>key</code> (POS / HQ)</td></tr>
+        <tr><td>HQ catalog &amp; pricing</td><td><code>/api/branch</code>, <code>/api/quicksale</code>, <code>/api/promotion</code>, <code>/api/price/*</code></td><td><code>key</code> + <code>projectname</code></td></tr>
+      </tbody>
+    </table>
+    <div class="callout">
+      <span class="en"><strong>Important:</strong> UAT currently exposes endpoints over HTTP (TLS not enabled). Examples mask secrets as <code>***UAT_KEY***</code>. Do not reuse UAT credentials in production.</span>
+      <span class="th"><strong>สำคัญ:</strong> UAT ปัจจุบันเปิดผ่าน HTTP (ยังไม่มี TLS) ตัวอย่างในเอกสาร mask ความลับเป็น <code>***UAT_KEY***</code> ห้ามนำ credential ของ UAT ไปใช้ใน production</span>
+    </div>
+  </section>
+
+  <section class="block" id="auth">
+    <h2><span class="en">2. Security and authentication</span><span class="th">2. ความมั่นคงปลอดภัยและการยืนยันตัวตน</span></h2>
+    <p class="en">Authentication is performed via custom request headers. This differs from RFC 7235 <code>Authorization</code> and should be treated as an integration-specific convention for UAT.</p>
+    <p class="th">การยืนยันตัวตนใช้ request header แบบกำหนดเอง ซึ่งต่างจากมาตรฐาน RFC 7235 <code>Authorization</code> และถือเป็นข้อตกลงเฉพาะของการเชื่อมต่อบน UAT</p>
+    <table>
+      <thead><tr><th>Header</th><th><span class="en">Applies to</span><span class="th">ใช้กับ</span></th><th><span class="en">Requirement</span><span class="th">ข้อกำหนด</span></th></tr></thead>
+      <tbody>
+        <tr><td><code>key</code></td><td>Gateway and HQ</td><td><span class="en">Mandatory. Invalid value returns HTTP 401.</span><span class="th">จำเป็น ถ้าผิดจะได้ HTTP 401</span></td></tr>
+        <tr><td><code>projectname</code></td><td>HQ API</td><td><span class="en">Mandatory for HQ. Example value: <code>TRUNK</code>.</span><span class="th">จำเป็นสำหรับ HQ ตัวอย่างค่า: <code>TRUNK</code></span></td></tr>
+        <tr><td><code>Content-Type</code></td><td>POST / PUT / PATCH</td><td><code>application/json</code></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block" id="codes">
+    <h2><span class="en">3. Status and business-code model</span><span class="th">3. แบบจำลองสถานะและรหัสธุรกิจ</span></h2>
+    <p class="en">Several operations return HTTP 200 while conveying outcome through a business <code>code</code> field. Authentication and some validation failures use standard HTTP 4xx statuses.</p>
+    <p class="th">หลายการทำงานคืน HTTP 200 และสื่อผลลัพธ์ผ่านฟิลด์ business <code>code</code> ส่วนความล้มเหลวด้านการยืนยันตัวตนและการตรวจสอบบางกรณีใช้ HTTP 4xx ตามมาตรฐาน</p>
+    <table>
+      <thead><tr><th>Code</th><th><span class="en">Meaning</span><span class="th">ความหมาย</span></th></tr></thead>
+      <tbody>
+<tr><td><code>100</code></td><td><span class="en">Success / verified</span><span class="th">สำเร็จ / verified</span></td></tr><tr><td><code>201</code></td><td><span class="en">Validation failure / incomplete payload</span><span class="th">ข้อมูลไม่ครบหรือไม่ผ่านการตรวจสอบ</span></td></tr><tr><td><code>301</code></td><td><span class="en">Resource mismatch or not found</span><span class="th">ไม่พบข้อมูล หรือสาขา/สินค้าไม่ตรง</span></td></tr><tr><td><code>303</code></td><td><span class="en">Order not found</span><span class="th">ไม่พบคำสั่งซื้อ</span></td></tr><tr><td><code>311</code></td><td><span class="en">Coupon or CRM rejection</span><span class="th">คูปองหรือ CRM ไม่ถูกต้อง</span></td></tr><tr><td><code>312</code></td><td><span class="en">Promotion not applicable</span><span class="th">โปรโมชันใช้กับตะกร้านี้ไม่ได้</span></td></tr><tr><td><code>401</code></td><td><span class="en">HTTP Unauthorized</span><span class="th">HTTP Unauthorized</span></td></tr><tr><td><code>403</code></td><td><span class="en">HTTP Forbidden</span><span class="th">HTTP Forbidden</span></td></tr><tr><td><code>400</code></td><td><span class="en">HTTP Bad Request (e.g. TOTAL_EXCEEDS_PAID)</span><span class="th">HTTP Bad Request (เช่น TOTAL_EXCEEDS_PAID)</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <section class="block" id="evidence">
+    <h2><span class="en">4. Verification evidence</span><span class="th">4. หลักฐานการทวนสอบ</span></h2>
+    <table>
+      <tbody>
+        <tr><th style="width:34%"><span class="en">Collection</span><span class="th">คอลเลกชัน</span></th><td><code>Reggu-BEANS UAT (public)</code></td></tr>
+        <tr><th><span class="en">Runner</span><span class="th">เครื่องมือ</span></th><td>Postman CLI</td></tr>
+        <tr><th><span class="en">Result</span><span class="th">ผล</span></th><td><span class="badge">PASS</span> 66 requests · 154 assertions · 0 failed</td></tr>
+        <tr><th><span class="en">Duration</span><span class="th">ระยะเวลา</span></th><td>~14.3 s (average response ~203 ms)</td></tr>
+        <tr><th><span class="en">Source of examples</span><span class="th">ที่มาของตัวอย่าง</span></th><td><span class="en">Live UAT responses from the passing run; secrets masked; oversized bodies truncated.</span><span class="th">Response จริงจากรอบที่ผ่านบน UAT; ปิดบังความลับ; ย่อ payload ขนาดใหญ่</span></td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <h2 class="sec-title" id="endpoints"><span class="en">5. Operations catalogue</span><span class="th">5. รายการการทำงานของ API</span></h2>
+<div class="group"><span class="en">1. Gateway — Reggu</span><span class="th">1. Gateway — Reggu</span></div>
+<article class="ep" id="ep-01">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">0 Verify POS / shop</span><span class="th">0 verify</span></h3>
+    <span style="color:#667085;font-size:.78rem">53 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/verify</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 0 POS Verification · POST /api/gw/verify (ใช้ /api/gw/ordertransaction/verify ได้เหมือนกัน)
+
+คาดหวัง: HTTP 200 · code 100 (VERIFIED) · สาขาเปลี่ยนเป็น VerifiedStatus = success
+merchantNo / shopNo ต้องเป็นค่าเดิมที่ผูกไว้ (มาจาก env\reggu.env ผ่าน make-env.py) — ShopNo อื่น = 101 · ไม่ส่ง shopNo = 201
+อ้างอิงเทส: gap_gw_tests.py G14022-1a/3a</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;vendorId&quot;: 7,
+  &quot;posReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+  &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+  &quot;merchantNo&quot;: &quot;RG-LOCAL-M-50170&quot;,
+  &quot;shopNo&quot;: &quot;RG-LOCAL-S-00003&quot;,
+  &quot;customData&quot;: {
+    &quot;shopName&quot;: &quot;BEANS Postman&quot;,
+    &quot;email&quot;: &quot;postman@example.invalid&quot;,
+    &quot;Lat&quot;: &quot;13.7563&quot;,
+    &quot;Long&quot;: &quot;100.5018&quot;,
+    &quot;OpenTime&quot;: &quot;08:00&quot;,
+    &quot;CloseTime&quot;: &quot;20:00&quot;
+  }
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;VERIFIED&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-02">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http err">HTTP 401</span>
+    <h3><span class="en">0 Verify — invalid API key → 401</span><span class="th">0 verify — key ผิด → 401</span></h3>
+    <span style="color:#667085;font-size:.78rem">36 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/ordertransaction/verify</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 0 POS Verification + Response Codes (HTTP 401) · header key ผิด
+
+คาดหวัง: HTTP 401 · อ้างอิง G14022-6</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: wrong-key-postman</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;vendorId&quot;: 7,
+  &quot;posReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+  &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+  &quot;merchantNo&quot;: &quot;RG-LOCAL-M-50170&quot;,
+  &quot;shopNo&quot;: &quot;RG-LOCAL-S-00003&quot;,
+  &quot;customData&quot;: {
+    &quot;shopName&quot;: &quot;BEANS Postman&quot;,
+    &quot;email&quot;: &quot;postman@example.invalid&quot;,
+    &quot;Lat&quot;: &quot;13.7563&quot;,
+    &quot;Long&quot;: &quot;100.5018&quot;,
+    &quot;OpenTime&quot;: &quot;08:00&quot;,
+    &quot;CloseTime&quot;: &quot;20:00&quot;
+  }
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">Invalid key.</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-03">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">3 Submit order — simple item (uatcopy)</span><span class="th">3 submit — simple ข้อมูลจริง (uatcopy)</span></h3>
+    <span style="color:#667085;font-size:.78rem">47 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/ordertransaction</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 3 Submit Order · POST /api/gw/ordertransaction · header key = key ของ Reggu
+
+คาดหวัง: HTTP 200 · isok true · code 100 · data.orderstatus = OrderReceive · data.orderno = OrderNo ที่ส่ง
+OrderNo / orderid สร้างใหม่ทุกครั้งจาก {{$timestamp}} (pre-request script) → ใช้ต่อใน 3.1 Get Order และ 8 CustomerCancel
+code อื่นที่อาจเจอ: 101 สาขายังไม่ verify · 201 ข้อมูลขาด · 301 สินค้า/payment ไม่ตรงกับสาขา (เช่น ยิง body ของอีก stack) · 302 order ซ้ำ
+
+stack: local-uatcopy (เมนูจริงที่ push จาก HQ สำเนา UAT) · สินค้าเดียว q…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;isCalculateInPOS&quot;: false,
+  &quot;deliveryType&quot;: &quot;Delivery&quot;,
+  &quot;subTotal&quot;: 112.15,
+  &quot;tax&quot;: 7.85,
+  &quot;discount&quot;: 0.0,
+  &quot;deliveryFee&quot;: 0,
+  &quot;originalTotal&quot;: 120.0,
+  &quot;total&quot;: 120.0,
+  &quot;customerName&quot;: &quot;UAT copy order O1&quot;,
+  &quot;address&quot;: &quot;1 Test Road, Bangkok&quot;,
+  &quot;mobileNumber&quot;: &quot;0892033101&quot;,
+  &quot;numOfGuest&quot;: 1,
+  &quot;latitude&quot;: &quot;13.7563&quot;,
+  &quot;longitude&quot;: &quot;100.5018&quot;,
+  &quot;remark&quot;: &quot;uatcopy real-item order O1&quot;,
+  &quot;orderId&quot;: &quot;RG-PM-1794988062O1&quot;,
+  &quot;orderNo&quot;: &quot;PM-1794988062-O1&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;orderDate&quot;: &quot;2026-11-18T14:30:00+07:00&quot;,
+  &quot;deliveryDate&quot;: &quot;2026-11-18T15:30:00&quot;,
+  &quot;orderItems&quot;: [
+    {
+      &quot;lineNo&quot;: 1,
+      &quot;menuSKUId&quot;: &quot;FGBV000040000001&quot;,
+      &quot;menuName&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuPrice&quot;: 120.0,
+      &quot;totalPrice&quot;: 120.0,
+      &quot;subTotal&quot;: 112.15,
+      &quot;tax&quot;: 7.85,
+      &quot;discountAmount&quot;: 0.0,
+      &quot;memberDiscountAmount&quot;: 0.0,
+      &quot;couponDiscountAmount&quot;: 0.0,
+      &quot;orderItemModifiers&quot;: [],
+      &quot;orderItemPackages&quot;: []
+    }
+  ],
+  &quot;orderCampaigns&quot;: [],
+  &quot;orderCoupons&quot;: [],
+  &quot;orderPayments&quot;: [
+    {
+      &quot;paymentMethodCode&quot;: &quot;CreditCard&quot;,
+      &quot;paymentMethodName&quot;: &quot;CreditCard&quot;,
+      &quot;refNo&quot;: &quot;PAY-PM-O1-CreditCard&quot;,
+      &quot;amount&quot;: 120.0
+    }
+  ],
+  &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;SUCCESS&quot;,
+  &quot;data&quot;: {
+    &quot;orderId&quot;: &quot;RG-PM-1794986396O1&quot;,
+    &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+    &quot;orderNo&quot;: &quot;PM-1794986396-O1&quot;,
+    &quot;orderStatus&quot;: &quot;OrderReceive&quot;,
+    &quot;orderCoupons&quot;: []
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-04">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">3.1 Get order</span><span class="th">3.1 Get Order</span></h3>
+    <span style="color:#667085;font-size:.78rem">63 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/ordertransaction/PM-1794988062-O1</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 3.1 Get Order · GET /api/gw/ordertransaction/{OrderNo} · ใช้ OrderNo จาก submit ล่าสุด ({{orderNo}})
+
+คาดหวัง: HTTP 200 · isok true · code 100 · data.orderstatus = สถานะปัจจุบัน (OrderReceive / Preparing / … / CustomerCancelled) · มี originaltotal, orderitems[].lineno, orderpayments · อ้างอิง gw_tests.py 20</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;SUCCESS&quot;,
+  &quot;data&quot;: {
+    &quot;orderStatus&quot;: &quot;OrderReceive&quot;,
+    &quot;vendorId&quot;: 7,
+    &quot;orderId&quot;: &quot;RG-PM-1794986396O6&quot;,
+    &quot;orderNo&quot;: &quot;PM-1794986396-O6&quot;,
+    &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+    &quot;deliveryType&quot;: &quot;Delivery&quot;,
+    &quot;orderDate&quot;: &quot;2026-11-18T14:19:56.431514&quot;,
+    &quot;deliveryDate&quot;: &quot;2026-11-18T15:19:56&quot;,
+    &quot;total&quot;: 90.0,
+    &quot;subTotal&quot;: 84.11,
+    &quot;tax&quot;: 5.89,
+    &quot;discount&quot;: 45.0,
+    &quot;deliveryFee&quot;: 0.0,
+    &quot;tableName&quot;: &quot;&quot;,
+    &quot;customerName&quot;: &quot;UAT copy order O6&quot;,
+    &quot;address&quot;: &quot;1 Test Road, Bangkok&quot;,
+    &quot;mobileNumber&quot;: &quot;0892033106&quot;,
+    &quot;isCalculateInPOS&quot;: false,
+    &quot;numOfGuest&quot;: 1,
+    &quot;latitude&quot;: null,
+    &quot;longitude&quot;: null,
+    &quot;deliveryAgentId&quot;: 0,
+    &quot;orderItems&quot;: [
+      {
+        &quot;menuSKUId&quot;: &quot;FGBV000044000005&quot;,
+        &quot;menuName&quot;: &quot;Schweppes Tonic Water 330ml-can&quot;,
+        &quot;quantity&quot;: 1.0,
+        &quot;menuPrice&quot;: 45.0,
+        &quot;totalPrice&quot;: 45.0,
+        &quot;subTotal&quot;: 45.0,
+        &quot;tax&quot;: 0.0,
+        &quot;remark&quot;: &quot;&quot;,
+        &quot;orderItemModifiers&quot;: null,
+        &quot;lineNo&quot;: 1
+      },
+      {
+        &quot;menuSKUId&quot;: &quot;FGBV000045000001&quot;,
+        &quot;menuName&quot;: &quot;Coke Original 325ml-can&quot;,
+        &quot;quantity&quot;: 2.0,
+        &quot;menuPrice&quot;: 45.0,
+        &quot;totalPrice&quot;: 90.0,
+        &quot;subTotal&quot;: 84.11,
+        &quot;tax&quot;: 5.89,
+        &quot;remark&quot;: &quot;&quot;,
+        &quot;orderItemModifiers&quot;: null,
+        &quot;lineNo&quot;: 2
+      }
+    ],
+    &quot;orderPayments&quot;: [
+      {
+        &quot;paymentMethodCode&quot;: &quot;บัตรเครดิต&quot;,
+        &quot;paymentMethodName&quot;: &quot;บัตรเครดิต&quot;,
+        &quot;refNo&quot;: null,
+        &quot;amount&quot;: 90.0
+      }
+    ],
+    &quot;orderCampaigns&quot;: null,
+    &quot;originalTotal&quot;: 135.0,
+    &quot;memberCode&quot;: &quot;UATCOPY-M062&quot;
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-05">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">3.1 Get order — not found → 303</span><span class="th">3.1 Get Order — ไม่มี order → 303</span></h3>
+    <span style="color:#667085;font-size:.78rem">18 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/ordertransaction/NO-SUCH-ORDER-1794988062</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 3.1 Get Order + Response Codes 303 · OrderNo ที่ไม่มี
+
+คาดหวัง: HTTP 200 · code 303 · อ้างอิง N27</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: false,
+  &quot;code&quot;: &quot;303&quot;,
+  &quot;message&quot;: &quot;DATA_NOTFOUND orderno&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-06">
+  <div class="ep-h">
+    <span class="method PATCH">PATCH</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">8 Customer cancel</span><span class="th">8 CustomerCancel</span></h3>
+    <span style="color:#667085;font-size:.78rem">35 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/ordertransaction/CustomerCancel</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 8 Customer Cancel · PATCH /api/gw/ordertransaction/CustomerCancel · บังคับ orderid + OrderNo + ShopReferenceNo + vendorId (SA Q5/Q13)
+
+คาดหวัง: HTTP 200 · isok true · code 100 · order เป็น CustomerCancelled (ดูด้วย 3.1 Get Order) · Reggu ไม่ได้ webhook
+ยกเลิกได้เฉพาะตอน OrderReceive — ถ้า POS กด preparing แล้วจะได้ 304 · อ้างอิง gw_tests.py 19, G14037-1</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;orderid&quot;: &quot;RG-PM-1794988062O1&quot;,
+  &quot;OrderNo&quot;: &quot;PM-1794988062-O1&quot;,
+  &quot;ShopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;Reason&quot;: &quot;ลูกค้าเปลี่ยนใจ (Postman)&quot;
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;SUCCESS&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-07">
+  <div class="ep-h">
+    <span class="method PATCH">PATCH</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">8 Customer cancel — missing OrderNo → 201</span><span class="th">8 CustomerCancel — ไม่ส่ง OrderNo → 201</span></h3>
+    <span style="color:#667085;font-size:.78rem">17 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/ordertransaction/CustomerCancel</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 8 Customer Cancel + Response Codes 201 · ไม่มี OrderNo
+
+คาดหวัง: HTTP 200 · code 201 · order ไม่ถูกยกเลิก · อ้างอิง N-Q5 / G14037-2</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;orderid&quot;: &quot;RG-PM-1794988062O1&quot;,
+  &quot;ShopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;Reason&quot;: &quot;ไม่ส่ง OrderNo (Postman)&quot;
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: false,
+  &quot;code&quot;: &quot;201&quot;,
+  &quot;message&quot;: &quot;DATA_INVALID OrderNo&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-08">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">10 Item availability — by merchantId</span><span class="th">10 item availability — merchantId</span></h3>
+    <span style="color:#667085;font-size:.78rem">17 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/item_availability?merchantId=50170&amp;vendorId=7</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 10 Get Item Availability · GET /api/gw/item_availability?merchantId=&amp;vendorId=7
+
+คาดหวัง: HTTP 200 · isok true · code 100 · data.asOfTime + data.closedItems[] (ว่าง = ไม่มีสินค้าปิด) · อ้างอิง 21 / N40-1</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;SUCCESS&quot;,
+  &quot;data&quot;: {
+    &quot;merchantId&quot;: 50170,
+    &quot;shopReferenceNo&quot;: &quot;&quot;,
+    &quot;asOfTime&quot;: &quot;2026-11-18T14:19:56.768&quot;,
+    &quot;closedItems&quot;: []
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-09">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">10 Item availability — missing merchantId → 201</span><span class="th">10 item availability — ไม่ส่ง merchantId → 201</span></h3>
+    <span style="color:#667085;font-size:.78rem">40 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/item_availability?vendorId=7</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 10 Get Item Availability + Response Codes 201 · ไม่ส่งทั้ง merchantId และ ShopReferenceNo
+
+คาดหวัง: HTTP 200 · code 201 · อ้างอิง N40-3</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: false,
+  &quot;code&quot;: &quot;201&quot;,
+  &quot;message&quot;: &quot;DATA_REQUIRED merchantId&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article><div class="group"><span class="en">2. Gateway — POS</span><span class="th">2. Gateway — POS</span></div>
+<article class="ep" id="ep-10">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">POS 0 Create order for POS workflow (uatcopy)</span><span class="th">POS 0 submit order ใหม่ให้ POS (uatcopy)</span></h3>
+    <span style="color:#667085;font-size:.78rem">296 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/gw/ordertransaction</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 3 Submit Order · POST /api/gw/ordertransaction · header key = key ของ Reggu
+
+คาดหวัง: HTTP 200 · isok true · code 100 · data.orderstatus = OrderReceive · data.orderno = OrderNo ที่ส่ง
+OrderNo / orderid สร้างใหม่ทุกครั้งจาก {{$timestamp}} (pre-request script) → ใช้ต่อใน 3.1 Get Order และ 8 CustomerCancel
+code อื่นที่อาจเจอ: 101 สาขายังไม่ verify · 201 ข้อมูลขาด · 301 สินค้า/payment ไม่ตรงกับสาขา (เช่น ยิง body ของอีก stack) · 302 order ซ้ำ
+
+stack: local-uatcopy (เมนูจริงที่ push จาก HQ สำเนา UAT) · สินค้าเดียว q…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;isCalculateInPOS&quot;: false,
+  &quot;deliveryType&quot;: &quot;Delivery&quot;,
+  &quot;subTotal&quot;: 112.15,
+  &quot;tax&quot;: 7.85,
+  &quot;discount&quot;: 0.0,
+  &quot;deliveryFee&quot;: 0,
+  &quot;originalTotal&quot;: 120.0,
+  &quot;total&quot;: 120.0,
+  &quot;customerName&quot;: &quot;UAT copy order O1&quot;,
+  &quot;address&quot;: &quot;1 Test Road, Bangkok&quot;,
+  &quot;mobileNumber&quot;: &quot;0892033101&quot;,
+  &quot;numOfGuest&quot;: 1,
+  &quot;latitude&quot;: &quot;13.7563&quot;,
+  &quot;longitude&quot;: &quot;100.5018&quot;,
+  &quot;remark&quot;: &quot;uatcopy real-item order O1&quot;,
+  &quot;orderId&quot;: &quot;&quot;,
+  &quot;orderNo&quot;: &quot;PM-1794988062-POS&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;orderDate&quot;: &quot;2026-11-18T14:30:00+07:00&quot;,
+  &quot;deliveryDate&quot;: &quot;2026-11-18T15:30:00&quot;,
+  &quot;orderItems&quot;: [
+    {
+      &quot;lineNo&quot;: 1,
+      &quot;menuSKUId&quot;: &quot;FGBV000040000001&quot;,
+      &quot;menuName&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuPrice&quot;: 120.0,
+      &quot;totalPrice&quot;: 120.0,
+      &quot;subTotal&quot;: 112.15,
+      &quot;tax&quot;: 7.85,
+      &quot;discountAmount&quot;: 0.0,
+      &quot;memberDiscountAmount&quot;: 0.0,
+      &quot;couponDiscountAmount&quot;: 0.0,
+      &quot;orderItemModifiers&quot;: [],
+      &quot;orderItemPackages&quot;: []
+    }
+  ],
+  &quot;orderCampaigns&quot;: [],
+  &quot;orderCoupons&quot;: [],
+  &quot;orderPayments&quot;: [
+    {
+      &quot;paymentMethodCode&quot;: &quot;CreditCard&quot;,
+      &quot;paymentMethodName&quot;: &quot;CreditCard&quot;,
+      &quot;refNo&quot;: &quot;PAY-PM-O1-CreditCard&quot;,
+      &quot;amount&quot;: 120.0
+    }
+  ],
+  &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;SUCCESS&quot;,
+  &quot;data&quot;: {
+    &quot;orderId&quot;: &quot;RG-PM-1794986397POS&quot;,
+    &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+    &quot;orderNo&quot;: &quot;PM-1794986397-POS&quot;,
+    &quot;orderStatus&quot;: &quot;OrderReceive&quot;,
+    &quot;orderCoupons&quot;: []
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-11">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">POS 0 Resolve gateway OrderId by OrderNo</span><span class="th">POS 0 หา OrderId ของ gateway จาก OrderNo</span></h3>
+    <span style="color:#667085;font-size:.78rem">37 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/orderTransaction/OrderNo/LUHJ3-37CB3-76DFA-1890E-A0269/PM-1794988062-POS</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">GET /api/orderTransaction/OrderNo/{registerCode}/{orderNo} (endpoint ของ POS) · อ่าน OrderId ตัวเลขของ gateway ของ order ที่เพิ่ง submit แล้วเก็บใน gwOrderId ให้ request ถัดไป (แทนการ query PG เอง)
+
+คาดหวัง: HTTP 200 · OrderNo ตรง · OrderId เป็นตัวเลข</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <div class="note"><span class="en">Response body captured from UAT; large payloads are structurally truncated for documentation.</span><span class="th">ตัวอย่างย่อจาก response จริงรอบเทส</span></div><pre class="json">{
+  &quot;orderId&quot;: 7000087,
+  &quot;estimatedReadyTime&quot;: null,
+  &quot;orderNo&quot;: &quot;PM-1794986397-POS&quot;,
+  &quot;orderDate&quot;: &quot;2026-11-18T14:19:56.958452&quot;,
+  &quot;orderTime&quot;: &quot;2026-11-18T14:19:56.958452&quot;,
+  &quot;transactionNumber&quot;: null,
+  &quot;orderStatus&quot;: 1,
+  &quot;transactionStatusName&quot;: null,
+  &quot;insertDate&quot;: &quot;2026-11-18T14:19:56.958448&quot;,
+  &quot;insertTime&quot;: &quot;2026-11-18T14:19:56.958448&quot;,
+  &quot;updateDate&quot;: &quot;2026-11-18T14:19:56.958449&quot;,
+  &quot;updateTime&quot;: &quot;2026-11-18T14:19:56.958449&quot;,
+  &quot;isSyncToShop&quot;: false,
+  &quot;memberCode&quot;: null,
+  &quot;posMemberCode&quot;: null,
+  &quot;crmmemberCode&quot;: null,
+  &quot;deliveryAgentCode&quot;: null,
+  &quot;deliveryAgentName&quot;: null,
+  &quot;deliveryJobNo&quot;: null,
+  &quot;courierCode&quot;: null,
+  &quot;merchantName&quot;: &quot;BEANS 0014 Robinson Ratchaphruek (uatcopy)&quot;,
+  &quot;orderItemStatus&quot;: 0,
+  &quot;orderItems&quot;: [
+    {
+      &quot;isSyncToShop&quot;: false,
+      &quot;orderItemStatus&quot;: 1,
+      &quot;insertDate&quot;: &quot;2026-11-18T14:19:57.08482&quot;,
+      &quot;insertTime&quot;: &quot;2026-11-18T14:19:57.08482&quot;,
+      &quot;updateDate&quot;: &quot;2026-11-18T14:19:57.084821&quot;,
+      &quot;updateTime&quot;: &quot;2026-11-18T14:19:57.084821&quot;,
+      &quot;OrderItemModifiers&quot;: [],
+      &quot;OrderItemPackages&quot;: [],
+      &quot;totalExtraPrice&quot;: 0.0,
+      &quot;totalExtraPricePackageItem&quot;: 0.0,
+      &quot;totalExtraPricePackageItemBeforeVat&quot;: 0.0,
+      &quot;subTotalPrice&quot;: 120.0,
+      &quot;subTotalPriceBeforeVat&quot;: 112.15,
+      &quot;subTotalExtendedPrice&quot;: 112.15,
+      &quot;menu&quot;: null,
+      &quot;menuCategoryName&quot;: null,
+      &quot;itemCategoryName&quot;: &quot;BEANS - Coffee - Iced Coffee&quot;,
+      &quot;orderRound&quot;: null,
+      &quot;roundNo&quot;: 0,
+      &quot;orderItemStatusName&quot;: &quot;CheckoutComplate&quot;,
+      &quot;orderItemId&quot;: 7000154,
+      &quot;merchantId&quot;: 50170,
+      &quot;orderId&quot;: 7000087,
+      &quot;itemId&quot;: 2677,
+      &quot;itemDesc&quot;: &quot;Active blend&quot;,
+      &quot;engItemDesc&quot;: &quot;&quot;,
+      &quot;subItemDesc&quot;: &quot;&quot;,
+      &quot;subItemDescEng&quot;: &quot;&quot;,
+      &quot;remark&quot;: &quot;&quot;,
+      &quot;qty&quot;: 1.0,
+      &quot;initPrice&quot;: 112.15,
+      &quot;unitPrice&quot;: 120.0,
+      &quot;isDiscount&quot;: false,
+      &quot;isServicecharge&quot;: false,
+      &quot;isPrintOrderSuccess&quot;: null,
+      &quot;discountPercent&quot;: 0.0,
+      &quot;…&quot;: &quot;truncated&quot;
+    }
+  ],
+  &quot;orderPayments&quot;: [
+    {
+      &quot;orderPaymentId&quot;: 7000101,
+      &quot;orderId&quot;: 7000087,
+      &quot;paymentMethodCode&quot;: &quot;บัตรเครดิต&quot;,
+      &quot;paymentMethodName&quot;: &quot;บัตรเครดิต&quot;,
+      &quot;orderPaymentDate&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;orderPaymentTime&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;insertDate&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;insertTime&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;updateDate&quot;: &quot;2026-11-18T14:19:57.08762&quot;,
+      &quot;updateTime&quot;: &quot;2026-11-18T14:19:57.08762&quot;,
+      &quot;merchantId&quot;: 50170,
+      &quot;paymentMethodId&quot;: 2,
+      &quot;paymentCategoryId&quot;: 2,
+      &quot;paymentMethodConfigId&quot;: 0,
+      &quot;amount&quot;: 120.0,
+      &quot;bankCode&quot;: &quot;&quot;,
+      &quot;bankName&quot;: &quot;&quot;,
+      &quot;bankBranch&quot;: &quot;&quot;,
+      &quot;cardType&quot;: &quot;&quot;,
+      &quot;cardHolderName&quot;: &quot;&quot;,
+      &quot;bankNo&quot;: &quot;&quot;,
+      &quot;cvv&quot;: &quot;&quot;,
+      &quot;cardExpire&quot;: &quot;2026-11-18T14:19:56.957119&quot;,
+      &quot;chargePercent&quot;: 0.0,
+      &quot;chargeAmount&quot;: 0.0,
+      &quot;transactionNumber&quot;: &quot;PM-1794986397-POS141957&quot;,
+      &quot;refNo&quot;: &quot;PAY-PM-O1-CreditCard&quot;,
+      &quot;active&quot;: true,
+      &quot;isInstallment&quot;: false,
+      &quot;installmentPeriod&quot;: 0,
+      &quot;minimumSpendAmount&quot;: 0
+    }
+  ],
+  &quot;orderCoupons&quot;: null,
+  &quot;eventCode&quot;: null,
+  &quot;eventName&quot;: null,
+  &quot;sumTotalExtraPrice&quot;: 0.0,
+  &quot;sumSubTotal&quot;: 112.15,
+  &quot;sumTotal&quot;: 120.0,
+  &quot;numOfItems&quot;: 1,
+  &quot;qty&quot;: 1.0,
+  &quot;orderIdEncrypt&quot;: &quot;f9nFVViq3jw%3d&quot;,
+  &quot;merchantIdEncrypt&quot;: &quot;SRjM0wimtxM%3d&quot;,
+  &quot;merchantId&quot;: 50170,
+  &quot;subTotal&quot;: 112.15,
+  &quot;…&quot;: &quot;truncated&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-12">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">POS GET order (before amendment)</span><span class="th">POS GET order (ก่อนแก้)</span></h3>
+    <span style="color:#667085;font-size:.78rem">24 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/orderTransaction/LUHJ3-37CB3-76DFA-1890E-A0269/7000087</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ฝั่ง POS อ่าน order จาก gateway (GET /api/orderTransaction/{RegisterCode}/{OrderId}) — ใช้เป็นต้นแบบของ body แก้ order (ชีต 5 Webhook Order Updated)
+
+คาดหวัง: HTTP 200 · มี OrderItems · test script เก็บ order ไว้ในตัวแปร environment posOrder ให้ 2 request ถัดไปใช้
+
+{{gwOrderId}} = OrderId (ตัวเลข) ของ gateway — Submit/Get Order ไม่คืนค่านี้ ต้องหาเองจาก PostgreSQL ของ stack นั้น (main: DB Merchant · uatcopy: Merchant_uatcopy):
+select &quot;OrderId&quot; from &quot;Order&quot; where &quot;OrderNo&quot; = &#x27;&lt;OrderNo&gt;&#x27;; แล้วใส่ในตัวแปร collection g…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <div class="note"><span class="en">Response body captured from UAT; large payloads are structurally truncated for documentation.</span><span class="th">ตัวอย่างย่อจาก response จริงรอบเทส</span></div><pre class="json">{
+  &quot;orderId&quot;: 7000087,
+  &quot;estimatedReadyTime&quot;: null,
+  &quot;orderNo&quot;: &quot;PM-1794986397-POS&quot;,
+  &quot;orderDate&quot;: &quot;2026-11-18T14:19:56.958452&quot;,
+  &quot;orderTime&quot;: &quot;2026-11-18T14:19:56.958452&quot;,
+  &quot;transactionNumber&quot;: null,
+  &quot;orderStatus&quot;: 1,
+  &quot;transactionStatusName&quot;: null,
+  &quot;insertDate&quot;: &quot;2026-11-18T14:19:56.958448&quot;,
+  &quot;insertTime&quot;: &quot;2026-11-18T14:19:56.958448&quot;,
+  &quot;updateDate&quot;: &quot;2026-11-18T14:19:56.958449&quot;,
+  &quot;updateTime&quot;: &quot;2026-11-18T14:19:56.958449&quot;,
+  &quot;isSyncToShop&quot;: false,
+  &quot;memberCode&quot;: null,
+  &quot;posMemberCode&quot;: null,
+  &quot;crmmemberCode&quot;: null,
+  &quot;deliveryAgentCode&quot;: null,
+  &quot;deliveryAgentName&quot;: null,
+  &quot;deliveryJobNo&quot;: null,
+  &quot;courierCode&quot;: null,
+  &quot;merchantName&quot;: &quot;BEANS 0014 Robinson Ratchaphruek (uatcopy)&quot;,
+  &quot;orderItemStatus&quot;: 0,
+  &quot;orderItems&quot;: [
+    {
+      &quot;isSyncToShop&quot;: false,
+      &quot;orderItemStatus&quot;: 1,
+      &quot;insertDate&quot;: &quot;2026-11-18T14:19:57.08482&quot;,
+      &quot;insertTime&quot;: &quot;2026-11-18T14:19:57.08482&quot;,
+      &quot;updateDate&quot;: &quot;2026-11-18T14:19:57.084821&quot;,
+      &quot;updateTime&quot;: &quot;2026-11-18T14:19:57.084821&quot;,
+      &quot;OrderItemModifiers&quot;: [],
+      &quot;OrderItemPackages&quot;: [],
+      &quot;totalExtraPrice&quot;: 0.0,
+      &quot;totalExtraPricePackageItem&quot;: 0.0,
+      &quot;totalExtraPricePackageItemBeforeVat&quot;: 0.0,
+      &quot;subTotalPrice&quot;: 120.0,
+      &quot;subTotalPriceBeforeVat&quot;: 112.15,
+      &quot;subTotalExtendedPrice&quot;: 112.15,
+      &quot;menu&quot;: null,
+      &quot;menuCategoryName&quot;: null,
+      &quot;itemCategoryName&quot;: &quot;BEANS - Coffee - Iced Coffee&quot;,
+      &quot;orderRound&quot;: null,
+      &quot;roundNo&quot;: 0,
+      &quot;orderItemStatusName&quot;: &quot;CheckoutComplate&quot;,
+      &quot;orderItemId&quot;: 7000154,
+      &quot;merchantId&quot;: 50170,
+      &quot;orderId&quot;: 7000087,
+      &quot;itemId&quot;: 2677,
+      &quot;itemDesc&quot;: &quot;Active blend&quot;,
+      &quot;engItemDesc&quot;: &quot;&quot;,
+      &quot;subItemDesc&quot;: &quot;&quot;,
+      &quot;subItemDescEng&quot;: &quot;&quot;,
+      &quot;remark&quot;: &quot;&quot;,
+      &quot;qty&quot;: 1.0,
+      &quot;initPrice&quot;: 112.15,
+      &quot;unitPrice&quot;: 120.0,
+      &quot;isDiscount&quot;: false,
+      &quot;isServicecharge&quot;: false,
+      &quot;isPrintOrderSuccess&quot;: null,
+      &quot;discountPercent&quot;: 0.0,
+      &quot;…&quot;: &quot;truncated&quot;
+    }
+  ],
+  &quot;orderPayments&quot;: [
+    {
+      &quot;orderPaymentId&quot;: 7000101,
+      &quot;orderId&quot;: 7000087,
+      &quot;paymentMethodCode&quot;: &quot;บัตรเครดิต&quot;,
+      &quot;paymentMethodName&quot;: &quot;บัตรเครดิต&quot;,
+      &quot;orderPaymentDate&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;orderPaymentTime&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;insertDate&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;insertTime&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;updateDate&quot;: &quot;2026-11-18T14:19:57.08762&quot;,
+      &quot;updateTime&quot;: &quot;2026-11-18T14:19:57.08762&quot;,
+      &quot;merchantId&quot;: 50170,
+      &quot;paymentMethodId&quot;: 2,
+      &quot;paymentCategoryId&quot;: 2,
+      &quot;paymentMethodConfigId&quot;: 0,
+      &quot;amount&quot;: 120.0,
+      &quot;bankCode&quot;: &quot;&quot;,
+      &quot;bankName&quot;: &quot;&quot;,
+      &quot;bankBranch&quot;: &quot;&quot;,
+      &quot;cardType&quot;: &quot;&quot;,
+      &quot;cardHolderName&quot;: &quot;&quot;,
+      &quot;bankNo&quot;: &quot;&quot;,
+      &quot;cvv&quot;: &quot;&quot;,
+      &quot;cardExpire&quot;: &quot;2026-11-18T14:19:56.957119&quot;,
+      &quot;chargePercent&quot;: 0.0,
+      &quot;chargeAmount&quot;: 0.0,
+      &quot;transactionNumber&quot;: &quot;PM-1794986397-POS141957&quot;,
+      &quot;refNo&quot;: &quot;PAY-PM-O1-CreditCard&quot;,
+      &quot;active&quot;: true,
+      &quot;isInstallment&quot;: false,
+      &quot;installmentPeriod&quot;: 0,
+      &quot;minimumSpendAmount&quot;: 0
+    }
+  ],
+  &quot;orderCoupons&quot;: null,
+  &quot;eventCode&quot;: null,
+  &quot;eventName&quot;: null,
+  &quot;sumTotalExtraPrice&quot;: 0.0,
+  &quot;sumSubTotal&quot;: 112.15,
+  &quot;sumTotal&quot;: 120.0,
+  &quot;numOfItems&quot;: 1,
+  &quot;qty&quot;: 1.0,
+  &quot;orderIdEncrypt&quot;: &quot;f9nFVViq3jw%3d&quot;,
+  &quot;merchantIdEncrypt&quot;: &quot;SRjM0wimtxM%3d&quot;,
+  &quot;merchantId&quot;: 50170,
+  &quot;subTotal&quot;: 112.15,
+  &quot;…&quot;: &quot;truncated&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-13">
+  <div class="ep-h">
+    <span class="method PUT">PUT</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">PUT Amend order — Total ≤ amount paid</span><span class="th">PUT orderTransaction edit — Total ≤ ยอดที่ชำระ</span></h3>
+    <span style="color:#667085;font-size:.78rem">2079 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/orderTransaction</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 5 Webhook Order Updated · POS แก้ order (PUT /api/orderTransaction) ด้วย Total = ยอดที่ชำระ (≤ paid)
+
+คาดหวัง: HTTP 200 · gateway บันทึก Total ใหม่ · Reggu stub ได้ order_updated (updatetype edit) 1 ครั้ง · ThirdPartyOrderNo ไม่เปลี่ยน
+แก้ได้เฉพาะก่อน POS ยืนยัน (preparing) — หลังยืนยันได้ HTTP 400 code 304 CANNOT_EDIT · อ้างอิง gw_tests.py 12c-b/12c-c, 12 / 9052
+body สร้างใน pre-request จาก posOrder (ไม่ส่ง ThirdPartyOrderNo / ThirdPartySystemId แบบเดียวกับ POS)</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <div class="note"><span class="en">Abbreviated request body reconstructed from the order returned in the successful UAT run (Total ≤ amount paid). The collection builds the full body in a pre-request script.</span><span class="th">ตัวอย่างย่อจาก order จริงรอบเทส (Total ≤ paid). Body เต็มสร้างจาก pre-request ใน collection</span></div><pre class="json">{
+  &quot;orderId&quot;: 7000087,
+  &quot;orderNo&quot;: &quot;PM-1794986397-POS&quot;,
+  &quot;orderItems&quot;: [
+    {
+      &quot;isSyncToShop&quot;: false,
+      &quot;orderItemStatus&quot;: 1,
+      &quot;insertDate&quot;: &quot;2026-11-18T14:19:57.08482&quot;,
+      &quot;insertTime&quot;: &quot;2026-11-18T14:19:57.08482&quot;,
+      &quot;updateDate&quot;: &quot;2026-11-18T14:19:57.084821&quot;,
+      &quot;updateTime&quot;: &quot;2026-11-18T14:19:57.084821&quot;,
+      &quot;OrderItemModifiers&quot;: [],
+      &quot;OrderItemPackages&quot;: [],
+      &quot;totalExtraPrice&quot;: 0.0,
+      &quot;totalExtraPricePackageItem&quot;: 0.0,
+      &quot;totalExtraPricePackageItemBeforeVat&quot;: 0.0,
+      &quot;subTotalPrice&quot;: 120.0,
+      &quot;subTotalPriceBeforeVat&quot;: 112.15,
+      &quot;subTotalExtendedPrice&quot;: 112.15,
+      &quot;menu&quot;: null,
+      &quot;menuCategoryName&quot;: null,
+      &quot;itemCategoryName&quot;: &quot;BEANS - Coffee - Iced Coffee&quot;,
+      &quot;orderRound&quot;: null,
+      &quot;roundNo&quot;: 0,
+      &quot;orderItemStatusName&quot;: &quot;CheckoutComplate&quot;,
+      &quot;orderItemId&quot;: 7000154,
+      &quot;merchantId&quot;: 50170,
+      &quot;orderId&quot;: 7000087,
+      &quot;itemId&quot;: 2677,
+      &quot;itemDesc&quot;: &quot;Active blend&quot;,
+      &quot;engItemDesc&quot;: &quot;&quot;,
+      &quot;subItemDesc&quot;: &quot;&quot;,
+      &quot;subItemDescEng&quot;: &quot;&quot;,
+      &quot;remark&quot;: &quot;&quot;,
+      &quot;qty&quot;: 1.0,
+      &quot;initPrice&quot;: 112.15,
+      &quot;unitPrice&quot;: 120.0,
+      &quot;isDiscount&quot;: false,
+      &quot;isServicecharge&quot;: false,
+      &quot;isPrintOrderSuccess&quot;: null,
+      &quot;discountPercent&quot;: 0.0,
+      &quot;discountBaht&quot;: 0.0,
+      &quot;discountAmount&quot;: 0.0,
+      &quot;discountAmountWtax&quot;: 0.0,
+      &quot;discountMbrPerchant&quot;: 0.0,
+      &quot;discountMbrAmount&quot;: 0.0,
+      &quot;discountCpperchant&quot;: 0.0,
+      &quot;discountCpamount&quot;: 0.0,
+      &quot;extendedPrice&quot;: 112.15,
+      &quot;tax&quot;: 7.85,
+      &quot;extendedPriceTax&quot;: 120.0,
+      &quot;menuId&quot;: 0,
+      &quot;itemCode&quot;: null,
+      &quot;imagePath&quot;: null,
+      &quot;ipAddress&quot;: null,
+      &quot;machineName&quot;: null,
+      &quot;orderPickupPointId&quot;: 0,
+      &quot;orderPickupPointName&quot;: null,
+      &quot;itemCategoryId&quot;: 0,
+      &quot;menuCategoryId&quot;: 0,
+      &quot;device&quot;: null,
+      &quot;deviceName&quot;: null,
+      &quot;devicePlatform&quot;: null,
+      &quot;deviceShortName&quot;: null,
+      &quot;deviceBrand&quot;: null,
+      &quot;deviceVersion&quot;: null,
+      &quot;deviceModel&quot;: null,
+      &quot;customerName&quot;: null
+    }
+  ],
+  &quot;orderPayments&quot;: [
+    {
+      &quot;orderPaymentId&quot;: 7000101,
+      &quot;orderId&quot;: 7000087,
+      &quot;paymentMethodCode&quot;: &quot;บัตรเครดิต&quot;,
+      &quot;paymentMethodName&quot;: &quot;บัตรเครดิต&quot;,
+      &quot;orderPaymentDate&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;orderPaymentTime&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;insertDate&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;insertTime&quot;: &quot;2026-11-18T14:19:57.087622&quot;,
+      &quot;updateDate&quot;: &quot;2026-11-18T14:19:57.08762&quot;,
+      &quot;updateTime&quot;: &quot;2026-11-18T14:19:57.08762&quot;,
+      &quot;merchantId&quot;: 50170,
+      &quot;paymentMethodId&quot;: 2,
+      &quot;paymentCategoryId&quot;: 2,
+      &quot;paymentMethodConfigId&quot;: 0,
+      &quot;amount&quot;: 120.0,
+      &quot;bankCode&quot;: &quot;&quot;,
+      &quot;bankName&quot;: &quot;&quot;,
+      &quot;bankBranch&quot;: &quot;&quot;,
+      &quot;cardType&quot;: &quot;&quot;,
+      &quot;cardHolderName&quot;: &quot;&quot;,
+      &quot;bankNo&quot;: &quot;&quot;,
+      &quot;cvv&quot;: &quot;&quot;,
+      &quot;cardExpire&quot;: &quot;2026-11-18T14:19:56.957119&quot;,
+      &quot;chargePercent&quot;: 0.0,
+      &quot;chargeAmount&quot;: 0.0,
+      &quot;transactionNumber&quot;: &quot;PM-1794986397-POS141957&quot;,
+      &quot;refNo&quot;: &quot;PAY-PM-O1-CreditCard&quot;,
+      &quot;active&quot;: true,
+      &quot;isInstallment&quot;: false,
+      &quot;installmentPeriod&quot;: 0,
+      &quot;minimumSpendAmount&quot;: 0
+    }
+  ],
+  &quot;subTotal&quot;: 112.15,
+  &quot;tax&quot;: 7.85,
+  &quot;total&quot;: 120.0,
+  &quot;discount&quot;: 0.0,
+  &quot;remark&quot;: null
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;orderId&quot;: 7000087,
+  &quot;estimatedReadyTime&quot;: null,
+  &quot;orderNo&quot;: null,
+  &quot;orderDate&quot;: &quot;2026-11-18T14:19:56.958452&quot;,
+  &quot;orderTime&quot;: &quot;0001-01-01T00:00:00&quot;,
+  &quot;transactionNumber&quot;: null,
+  &quot;orderStatus&quot;: 0,
+  &quot;transactionStatusName&quot;: null,
+  &quot;insertDate&quot;: &quot;2026-11-18T14:19:56.958448&quot;,
+  &quot;insertTime&quot;: &quot;0001-01-01T00:00:00&quot;,
+  &quot;updateDate&quot;: &quot;0001-01-01T00:00:00&quot;,
+  &quot;updateTime&quot;: &quot;0001-01-01T00:00:00&quot;,
+  &quot;isSyncToShop&quot;: false,
+  &quot;memberCode&quot;: null,
+  &quot;posMemberCode&quot;: null,
+  &quot;crmmemberCode&quot;: null,
+  &quot;deliveryAgentCode&quot;: null,
+  &quot;deliveryAgentName&quot;: null,
+  &quot;deliveryJobNo&quot;: null,
+  &quot;courierCode&quot;: null,
+  &quot;merchantName&quot;: null,
+  &quot;orderItemStatus&quot;: 0,
+  &quot;orderItems&quot;: null,
+  &quot;orderPayments&quot;: null,
+  &quot;orderCoupons&quot;: null,
+  &quot;eventCode&quot;: null,
+  &quot;eventName&quot;: null,
+  &quot;sumTotalExtraPrice&quot;: 0.0,
+  &quot;sumSubTotal&quot;: 0.0,
+  &quot;sumTotal&quot;: 0.0,
+  &quot;numOfItems&quot;: 0,
+  &quot;qty&quot;: 0.0,
+  &quot;orderIdEncrypt&quot;: &quot;f9nFVViq3jw%3d&quot;,
+  &quot;merchantIdEncrypt&quot;: &quot;SRjM0wimtxM%3d&quot;,
+  &quot;merchantId&quot;: 50170,
+  &quot;subTotal&quot;: 112.15,
+  &quot;tax&quot;: 7.85,
+  &quot;total&quot;: 120.0,
+  &quot;deliveryFee&quot;: 0.0,
+  &quot;diffofMinFee&quot;: 0.0,
+  &quot;discount&quot;: 0.0,
+  &quot;serviceCharge&quot;: 0.0,
+  &quot;fromIp&quot;: &quot;&quot;,
+  &quot;memberId&quot;: 0,
+  &quot;numOfGuest&quot;: 1,
+  &quot;shippingDistance&quot;: 0.0,
+  &quot;driverId&quot;: &quot;&quot;,
+  &quot;deliveryAgentId&quot;: 0,
+  &quot;deliveryJobId&quot;: &quot;&quot;,
+  &quot;memberAddressId&quot;: 0,
+  &quot;fullAddress&quot;: &quot;1 Test Road, Bangkok&quot;,
+  &quot;deliveryType&quot;: 3,
+  &quot;latitude&quot;: &quot;13.7563&quot;,
+  &quot;longitude&quot;: &quot;100.5018&quot;,
+  &quot;tableName&quot;: &quot;&quot;,
+  &quot;previousOrderStatus&quot;: 0,
+  &quot;orderPickupPointId&quot;: null,
+  &quot;terminalName&quot;: null,
+  &quot;orderQueueNumber&quot;: null,
+  &quot;numOfWaitQueue&quot;: 0,
+  &quot;customerFullName&quot;: &quot;UAT copy order O1&quot;,
+  &quot;phoneNumber&quot;: &quot;0892033101&quot;,
+  &quot;thirdPartyOrderNo&quot;: &quot;RG-PM-1794986397POS&quot;,
+  &quot;orderChannel&quot;: 3,
+  &quot;remark&quot;: null,
+  &quot;startTime&quot;: null,
+  &quot;endTime&quot;: null,
+  &quot;deliveryDate&quot;: &quot;2026-11-18T15:19:56&quot;,
+  &quot;eventId&quot;: null,
+  &quot;customData&quot;: null,
+  &quot;thirdPartySystemId&quot;: 7,
+  &quot;isCalculateInPOS&quot;: false,
+  &quot;originalTotal&quot;: 120.0,
+  &quot;orderCampaigns&quot;: null
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-14">
+  <div class="ep-h">
+    <span class="method PUT">PUT</span>
+    <span class="http err">HTTP 400</span>
+    <h3><span class="en">PUT Amend order — Total &gt; amount paid → 400</span><span class="th">PUT orderTransaction edit — Total &gt; ยอดที่ชำระ → 400</span></h3>
+    <span style="color:#667085;font-size:.78rem">22 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/orderTransaction</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 5 Webhook Order Updated + Response Codes 201 · Total = ยอดที่ชำระ + 10
+
+คาดหวัง: HTTP 400 · code 201 · message TOTAL_EXCEEDS_PAID · ยอดใน DB ไม่เปลี่ยน · ไม่มี order_updated · อ้างอิง 12c-a</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{{editBody}}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isOK&quot;: false,
+  &quot;code&quot;: &quot;201&quot;,
+  &quot;message&quot;: &quot;TOTAL_EXCEEDS_PAID&quot;
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-15">
+  <div class="ep-h">
+    <span class="method PATCH">PATCH</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">PATCH Order status — preparing</span><span class="th">PATCH status — preparing</span></h3>
+    <span style="color:#667085;font-size:.78rem">2090 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/orderTransaction/preparing</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 4.1 POS Update Status (+ webhook ชีต 4.2) · PATCH /api/orderTransaction/{status} · header key = key ของ POS สาขา · body = RegisterCode + OrderId ของ gateway ({{gwOrderId}}) + Driver/Job/Agent ของ order (order ใหม่ = ว่าง/0)
+
+คาดหวัง: HTTP 200 · Reggu stub ได้ PATCH …/preparing 1 ครั้ง (orderstatus Preparing, มี eventTime ไม่มี eventId) · 3.1 Get Order = Preparing · อ้างอิง 13
+
+{{gwOrderId}} = OrderId (ตัวเลข) ของ gateway — Submit/Get Order ไม่คืนค่านี้ ต้องหาเองจาก PostgreSQL ของ stack นั้น (main: DB Merchant ·…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;RegisterCode&quot;: &quot;LUHJ3-37CB3-76DFA-1890E-A0269&quot;,
+  &quot;OrderId&quot;: 7000087,
+  &quot;DriverId&quot;: &quot;&quot;,
+  &quot;DeliveryJobId&quot;: &quot;&quot;,
+  &quot;DeliveryAgentId&quot;: 0
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;orderStatus&quot;: 100
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-16">
+  <div class="ep-h">
+    <span class="method PATCH">PATCH</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">PATCH Order status — complete</span><span class="th">PATCH status — complete</span></h3>
+    <span style="color:#667085;font-size:.78rem">2075 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/orderTransaction/complete</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 4.1 POS Update Status (+ webhook ชีต 4.2) · PATCH /api/orderTransaction/{status} · header key = key ของ POS สาขา · body = RegisterCode + OrderId ของ gateway ({{gwOrderId}}) + Driver/Job/Agent ของ order (order ใหม่ = ว่าง/0)
+
+คาดหวัง: HTTP 200 · Reggu stub ได้ PATCH …/complete ที่มี pointsEarned 12 · 3.1 Get Order = Completed · อ้างอิง 16 complete + PointsEarned
+
+{{gwOrderId}} = OrderId (ตัวเลข) ของ gateway — Submit/Get Order ไม่คืนค่านี้ ต้องหาเองจาก PostgreSQL ของ stack นั้น (main: DB Merchant · uatcopy: Merch…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;RegisterCode&quot;: &quot;LUHJ3-37CB3-76DFA-1890E-A0269&quot;,
+  &quot;OrderId&quot;: 7000087,
+  &quot;DriverId&quot;: &quot;&quot;,
+  &quot;DeliveryJobId&quot;: &quot;&quot;,
+  &quot;DeliveryAgentId&quot;: 0,
+  &quot;PointsEarned&quot;: 12
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;orderStatus&quot;: 500
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-17">
+  <div class="ep-h">
+    <span class="method PATCH">PATCH</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">PATCH Order status — cancel</span><span class="th">PATCH status — cancel</span></h3>
+    <span style="color:#667085;font-size:.78rem">2094 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/orderTransaction/cancel</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 4.1 POS Update Status (+ webhook ชีต 4.2) · PATCH /api/orderTransaction/{status} · header key = key ของ POS สาขา · body = RegisterCode + OrderId ของ gateway ({{gwOrderId}}) + Driver/Job/Agent ของ order (order ใหม่ = ว่าง/0)
+
+คาดหวัง: HTTP 200 · Reggu stub ได้ PATCH …/cancelled 1 ครั้ง orderstatus Cancelled + Reason ตรงกับที่ส่ง · 3.1 Get Order = Cancelled
+ใช้หลัง complete ได้ด้วย (= void หลังจบบิล, SA รอบ 3 ข้อ 1.7) · อ้างอิง 16v
+
+{{gwOrderId}} = OrderId (ตัวเลข) ของ gateway — Submit/Get Order ไม่คืนค่านี้ ต้อง…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;RegisterCode&quot;: &quot;LUHJ3-37CB3-76DFA-1890E-A0269&quot;,
+  &quot;OrderId&quot;: 7000087,
+  &quot;DriverId&quot;: &quot;&quot;,
+  &quot;DeliveryJobId&quot;: &quot;&quot;,
+  &quot;DeliveryAgentId&quot;: 0,
+  &quot;Reason&quot;: &quot;ยกเลิกจาก Postman&quot;
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;orderStatus&quot;: 2000
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-18">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">Payment mapping — GET</span><span class="th">payment mapping — GET</span></h3>
+    <span style="color:#667085;font-size:.78rem">19 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/thirdpartypaymentmapping/merchantgroup/78/thirdpartysystem/7</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">spec v2.0 §5.6 (HQ ตั้ง mapping payment ของ Reggu ทั้ง chain) · GET /api/thirdpartypaymentmapping/merchantgroup/{group}/thirdpartysystem/7
+
+คาดหวัง: HTTP 200 · isOK true · data เป็น list · test script เก็บชุดปัจจุบันไว้ใน environment pmBackup (ใช้กับ &quot;PUT คืนค่าเดิม&quot;) · อ้างอิง G14160-7
+key ของสาขา / Reggu / HQ ของ chain อื่น = 403 (R55-7)
+
+key ของ HQ merchant ({{hq_key}}): rig ในเครื่องไม่มี key ของ HQ merchant — ถ้า hq_gw_key ใน keys.local.txt ว่าง make-env.py ใส่ hq_key = key ของ POS สาขา ซึ่งจะได้ 403 จนกว่าจะต…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isOK&quot;: true,
+  &quot;statusCode&quot;: 200,
+  &quot;statusText&quot;: null,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: []
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-19">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">Partner webhook — GET</span><span class="th">partner webhook — GET</span></h3>
+    <span style="color:#667085;font-size:.78rem">16 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/partnerwebhook/thirdpartysystem/7</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">spec v2.0 §5.5 · GET /api/partnerwebhook/thirdpartysystem/7 (URL webhook ของ Reggu ที่ใช้ร่วมทุก chain)
+
+คาดหวัง: HTTP 200 · isOK · data.baseUrl · data.isKeySet true · data.maskedKey มีแต่ * (+4 ตัวท้าย) ไม่คืน key จริง · test script เก็บ baseUrl ไว้ใน environment webhookBaseUrl · key ของสาขา/Reggu = 403 · key ผิด = 401 · อ้างอิง R55-2
+
+key ของ HQ merchant ({{hq_key}}): rig ในเครื่องไม่มี key ของ HQ merchant — ถ้า hq_gw_key ใน keys.local.txt ว่าง make-env.py ใส่ hq_key = key ของ POS สาขา ซึ่งจะได้ 403 จนกว่าจะตั้งส…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isOK&quot;: true,
+  &quot;statusCode&quot;: 200,
+  &quot;statusText&quot;: null,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: {
+    &quot;thirdPartySystemId&quot;: 7,
+    &quot;thirdPartySystemName&quot;: &quot;Reggu&quot;,
+    &quot;vendorId&quot;: 7,
+    &quot;baseUrl&quot;: &quot;http://127.0.0.1:8199&quot;,
+    &quot;isKeySet&quot;: true,
+    &quot;maskedKey&quot;: &quot;******************oken&quot;
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-20">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http err">HTTP 403</span>
+    <h3><span class="en">Partner webhook — branch POS key → 403</span><span class="th">partner webhook — key ของ POS สาขา → 403</span></h3>
+    <span style="color:#667085;font-size:.78rem">16 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/partnerwebhook/thirdpartysystem/7</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">PR 9055 review 9055-C1 · webhook ใช้ร่วมทุก chain สาขาอ่าน/แก้ไม่ได้
+
+คาดหวัง: HTTP 403 · อ้างอิง R55-1b</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isOK&quot;: false,
+  &quot;statusCode&quot;: 403,
+  &quot;statusText&quot;: null,
+  &quot;message&quot;: &quot;This key cannot manage the partner webhook&quot;,
+  &quot;data&quot;: null
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-21">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">Partner registration — GET</span><span class="th">partner registration — GET</span></h3>
+    <span style="color:#667085;font-size:.78rem">15 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8096/api/partnerregistration/merchantgroup/78/thirdpartysystem/7</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">spec v2.0 §5.5 (หน้าลงทะเบียนสาขากับ Reggu ของ HQ) · GET /api/partnerregistration/merchantgroup/{group}/thirdpartysystem/7
+
+คาดหวัง: HTTP 200 · แถว merchantId 50170: status Verified · shopReferenceNo = ShopReferenceNo ที่ verify · posReferenceNo = MerchantGroupCode หรือ GUID ที่ verify · อ้างอิง R55-5
+
+key ของ HQ merchant ({{hq_key}}): rig ในเครื่องไม่มี key ของ HQ merchant — ถ้า hq_gw_key ใน keys.local.txt ว่าง make-env.py ใส่ hq_key = key ของ POS สาขา ซึ่งจะได้ 403 จนกว่าจะตั้งสาขา 50170 เป็น HQ merchant ชั่วคราว…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isOK&quot;: true,
+  &quot;statusCode&quot;: 200,
+  &quot;statusText&quot;: null,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;merchantId&quot;: 50170,
+      &quot;merchantCode&quot;: &quot;BEA_BK0014&quot;,
+      &quot;merchantName&quot;: &quot;BEANS 0014 Robinson Ratchaphruek (uatcopy)&quot;,
+      &quot;active&quot;: true,
+      &quot;posReferenceNo&quot;: &quot;BEANS-UATCOPY&quot;,
+      &quot;shopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+      &quot;status&quot;: &quot;Verified&quot;
+    },
+    {
+      &quot;merchantId&quot;: 50171,
+      &quot;merchantCode&quot;: &quot;BEANS_HQ_UAT_VM3&quot;,
+      &quot;merchantName&quot;: &quot;BEANS HQ (UAT test)&quot;,
+      &quot;active&quot;: false,
+      &quot;posReferenceNo&quot;: &quot;&quot;,
+      &quot;shopReferenceNo&quot;: &quot;&quot;,
+      &quot;status&quot;: &quot;NotRegistered&quot;
+    }
+  ]
+}</pre>
+      </div>
+    </div>
+  </div>
+</article><div class="group"><span class="en">3. HQ API — Branches</span><span class="th">3. HQ API — สาขา</span></div>
+<article class="ep" id="ep-22">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">1.1 Online-order branches — filter by branchcode</span><span class="th">1.1 branches — filter branchcode</span></h3>
+    <span style="color:#667085;font-size:.78rem">37 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/branch/onlineorder?branchcode=BEA_BK0014</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 1.1 Branch List · filter branchcode
+
+คาดหวัง: code 100 · ได้สาขาเดียว</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;branchcode&quot;: &quot;BEA_BK0014&quot;,
+      &quot;branchname&quot;: &quot;BEANS 0014 BKK - Robinson Ratchaphruek&quot;,
+      &quot;brandcode&quot;: &quot;BEAN&quot;,
+      &quot;merchantId&quot;: 50170,
+      &quot;ShopReferenceNo&quot;: &quot;7e6a1c50-5017-4003-8007-000000050170&quot;,
+      &quot;PosReferenceNo&quot;: &quot;BEANS-UATCOPY&quot;,
+      &quot;merchantName&quot;: &quot;BEANS 0014 Robinson Ratchaphruek (uatcopy)&quot;,
+      &quot;latitude&quot;: 13.7563,
+      &quot;longitude&quot;: 100.5018,
+      &quot;active&quot;: true,
+      &quot;isTemporarilyClosed&quot;: false,
+      &quot;openTime&quot;: &quot;00:00&quot;,
+      &quot;closeTime&quot;: &quot;23:59&quot;
+    }
+  ]
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-23">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">1.1 Online-order branches — invalid merchantId → 201</span><span class="th">1.1 branches — merchantId=abc → 201</span></h3>
+    <span style="color:#667085;font-size:.78rem">15 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/branch/onlineorder?merchantId=abc</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 1.1 Branch List + Response Codes 201
+
+คาดหวัง: code 201 · อ้างอิง N16</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: false,
+  &quot;code&quot;: &quot;201&quot;,
+  &quot;message&quot;: &quot;merchantId must be a number&quot;,
+  &quot;data&quot;: null
+}</pre>
+      </div>
+    </div>
+  </div>
+</article><div class="group"><span class="en">3. HQ API — Quicksale</span><span class="th">3. HQ API — Quicksale</span></div>
+<article class="ep" id="ep-24">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">1.2 Quicksale menu — by branchcode</span><span class="th">1.2 quicksale — branchcode</span></h3>
+    <span style="color:#667085;font-size:.78rem">409 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/quicksale?profile=online&amp;branchcode=BEA_BK0014</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 1.2 Quick Sale Data · เมนูออนไลน์ของสาขา
+
+คาดหวัง: HTTP 200 · code 100 · หน้า/folder/item/ItemModifiers/itempackage · itempackage ไม่มี active/issoldout (SA Q26) · subitempackage มี active + issoldout (SA รอบ 3 ข้อ 1.12) · imageurl = null ถ้าไม่มีรูป · อ้างอิง 3, 3i, 3s</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <div class="note"><span class="en">Response body captured from UAT; large payloads are structurally truncated for documentation.</span><span class="th">Response จริงขนาด ~319 KB — ตัวอย่างด้านล่างถูกย่อโครงสร้างไว้</span></div><pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;PageCode&quot;: &quot;773&quot;,
+      &quot;PageName&quot;: &quot;Coffee - Hot Coffee&quot;,
+      &quot;OrderId&quot;: 1,
+      &quot;Items&quot;: [
+        {
+          &quot;itemgroupcode&quot;: &quot;COFFE&quot;,
+          &quot;itemgroupname&quot;: &quot;Coffee&quot;,
+          &quot;ItemCategoryCode&quot;: &quot;FGBV000039&quot;,
+          &quot;ItemCategoryName&quot;: &quot;BEANS - Coffee - Hot Coffee&quot;,
+          &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+          &quot;MenuName&quot;: &quot;Espresso Macchiato&quot;,
+          &quot;MenuPrice&quot;: 50.0,
+          &quot;itemtype&quot;: &quot;finishedgoods&quot;,
+          &quot;packagetype&quot;: null,
+          &quot;UnitPrice&quot;: 46.729,
+          &quot;Tax&quot;: 3.271,
+          &quot;Active&quot;: true,
+          &quot;OrderId&quot;: 1,
+          &quot;issoldout&quot;: false,
+          &quot;imageurl&quot;: null,
+          &quot;description&quot;: &quot;&quot;,
+          &quot;ItemModifiers&quot;: [
+            {
+              &quot;ModifierCode&quot;: &quot;MBEAN_0000004&quot;,
+              &quot;ModifierName&quot;: &quot;BEANS - House Blend&quot;,
+              &quot;maximumChoose&quot;: 5,
+              &quot;minimumChoose&quot;: 0,
+              &quot;requireAnswer&quot;: false,
+              &quot;ItemModifierChoices&quot;: [
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000034&quot;,
+                  &quot;choicename&quot;: &quot;B-01 Brazil ,Indonesia ,Papua +35฿ (Choice)&quot;,
+                  &quot;price&quot;: 35.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 1,
+                  &quot;maxQty&quot;: 5.0
+                },
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000035&quot;,
+                  &quot;choicename&quot;: &quot;B-02 Brazil ,Indonesia ,Lao +35฿ (Choice)&quot;,
+                  &quot;price&quot;: 35.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 2,
+                  &quot;maxQty&quot;: 5.0
+                },
+                &quot;… +4 more&quot;
+              ]
+            },
+            {
+              &quot;ModifierCode&quot;: &quot;MBEAN_0000003&quot;,
+              &quot;ModifierName&quot;: &quot;BEANS - Commercial Blend&quot;,
+              &quot;maximumChoose&quot;: 5,
+              &quot;minimumChoose&quot;: 0,
+              &quot;requireAnswer&quot;: false,
+              &quot;ItemModifierChoices&quot;: [
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000012&quot;,
+                  &quot;choicename&quot;: &quot;C-01 KD +30฿ (Choice)&quot;,
+                  &quot;price&quot;: 30.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 1,
+                  &quot;maxQty&quot;: 5.0
+                },
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000013&quot;,
+                  &quot;choicename&quot;: &quot;C-02 Laos +30฿ (Choice)&quot;,
+                  &quot;price&quot;: 30.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 2,
+                  &quot;maxQty&quot;: 5.0
+                },
+                &quot;… +7 more&quot;
+              ]
+            },
+            &quot;… +6 more&quot;
+          ],
+          &quot;itempackage&quot;: []
+        },
+        {
+          &quot;itemgroupcode&quot;: &quot;COFFE&quot;,
+          &quot;itemgroupname&quot;: &quot;Coffee&quot;,
+          &quot;ItemCategoryCode&quot;: &quot;FGBV000039&quot;,
+          &quot;ItemCategoryName&quot;: &quot;BEANS - Coffee - Hot Coffee&quot;,
+          &quot;itemcode&quot;: &quot;FGBV000039000009&quot;,
+          &quot;MenuName&quot;: &quot;Piccolo Latte&quot;,
+          &quot;MenuPrice&quot;: 60.0,
+          &quot;itemtype&quot;: &quot;finishedgoods&quot;,
+          &quot;packagetype&quot;: null,
+          &quot;UnitPrice&quot;: 56.0748,
+          &quot;Tax&quot;: 3.9252,
+          &quot;Active&quot;: true,
+          &quot;OrderId&quot;: 9,
+          &quot;issoldout&quot;: false,
+          &quot;imageurl&quot;: null,
+          &quot;description&quot;: &quot;&quot;,
+          &quot;ItemModifiers&quot;: [
+            {
+              &quot;ModifierCode&quot;: &quot;MBEAN_0000004&quot;,
+              &quot;ModifierName&quot;: &quot;BEANS - House Blend&quot;,
+              &quot;maximumChoose&quot;: 5,
+              &quot;minimumChoose&quot;: 0,
+              &quot;requireAnswer&quot;: false,
+              &quot;ItemModifierChoices&quot;: [
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000034&quot;,
+                  &quot;choicename&quot;: &quot;B-01 Brazil ,Indonesia ,Papua +35฿ (Choice)&quot;,
+                  &quot;price&quot;: 35.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 1,
+                  &quot;maxQty&quot;: 5.0
+                },
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000035&quot;,
+                  &quot;choicename&quot;: &quot;B-02 Brazil ,Indonesia ,Lao +35฿ (Choice)&quot;,
+                  &quot;price&quot;: 35.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 2,
+                  &quot;maxQty&quot;: 5.0
+                },
+                &quot;… +4 more&quot;
+              ]
+            },
+            {
+              &quot;ModifierCode&quot;: &quot;MBEAN_0000003&quot;,
+              &quot;ModifierName&quot;: &quot;BEANS - Commercial Blend&quot;,
+              &quot;maximumChoose&quot;: 5,
+              &quot;minimumChoose&quot;: 0,
+              &quot;requireAnswer&quot;: false,
+              &quot;ItemModifierChoices&quot;: [
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000012&quot;,
+                  &quot;choicename&quot;: &quot;C-01 KD +30฿ (Choice)&quot;,
+                  &quot;price&quot;: 30.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 1,
+                  &quot;maxQty&quot;: 5.0
+                },
+                {
+                  &quot;choicecode&quot;: &quot;FGBV000038000013&quot;,
+                  &quot;choicename&quot;: &quot;C-02 Laos +30฿ (Choice)&quot;,
+                  &quot;price&quot;: 30.0,
+                  &quot;isDiscontinued&quot;: false,
+                  &quot;issuspend&quot;: false,
+                  &quot;isDefault&quot;: false,
+                  &quot;orderIndex&quot;: 2,
+                  &quot;maxQty&quot;: 5.0
+                },
+                &quot;… +7 more&quot;
+              ]
+            },
+            &quot;… +6 more&quot;
+          ],
+          &quot;itempackage&quot;: []
+        },
+        &quot;… +1 more&quot;
+      ]
+    },
+    {
+      &quot;PageCode&quot;: &quot;774&quot;,
+      &quot;PageName&quot;: &quot;Coffee - Iced Coffee&quot;,
+      &quot;OrderId&quot;: 2,
+      &quot;Items&quot;: [
+        {
+          &quot;itemgroupcode&quot;: &quot;COFFE&quot;,
+          &quot;itemgroupname&quot;: &quot;Coffee&quot;,
+          &quot;ItemCategoryCode&quot;: &quot;FGBV000040&quot;,
+          &quot;ItemCategoryName&quot;: &quot;BEANS - Coffee - Iced Coffee&quot;,
+          &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+          &quot;MenuName&quot;: &quot;Active blend&quot;,
+          &quot;MenuPrice&quot;: 120.0,
+          &quot;itemtype&quot;: &quot;finishedgoods&quot;,
+          &quot;packagetype&quot;: null,
+          &quot;UnitPrice&quot;: 112.1495,
+          &quot;Tax&quot;: 7.8505,
+          &quot;Active&quot;: true,
+          &quot;OrderId&quot;: 1,
+          &quot;issoldout&quot;: false,
+          &quot;imageurl&quot;: null,
+          &quot;description&quot;: &quot;&quot;,
+          &quot;ItemModifiers&quot;: [],
+          &quot;itempackage&quot;: []
+        },
+        {
+          &quot;itemgroupcode&quot;: &quot;COFFE&quot;,
+          &quot;itemgroupname&quot;: &quot;Coffee&quot;,
+          &quot;ItemCategoryCode&quot;: &quot;FGBV000040&quot;,
+          &quot;ItemCategoryName&quot;: &quot;BEANS - Coffee - Iced Coffee&quot;,
+          &quot;itemcode&quot;: &quot;FGBV000040000009&quot;,
+          &quot;MenuName&quot;: &quot;Truthful brew&quot;,
+          &quot;MenuPrice&quot;: 130.0,
+          &quot;itemtype&quot;: &quot;finishedgoods&quot;,
+          &quot;packagetype&quot;: null,
+          &quot;UnitPrice&quot;: 121.4953,
+          &quot;Tax&quot;: 8.5047,
+          &quot;Active&quot;: true,
+          &quot;OrderId&quot;: 9,
+          &quot;issoldout&quot;: false,
+          &quot;imageurl&quot;: null,
+          &quot;description&quot;: &quot;&quot;,
+          &quot;ItemModifiers&quot;: [],
+          &quot;itempackage&quot;: []
+        }
+      ]
+    },
+    &quot;… +31 more&quot;
+  ]
+}</pre>
+      </div>
+    </div>
+  </div>
+</article><div class="group"><span class="en">3. HQ API — Promotions</span><span class="th">3. HQ API — โปรโมชัน</span></div>
+<article class="ep" id="ep-25">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">1.3 Promotions — by branchcode</span><span class="th">1.3 promotion — branchcode</span></h3>
+    <span style="color:#667085;font-size:.78rem">37 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/promotion?branchcode=BEA_BK0014</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 1.3 Promotion list
+
+คาดหวัง: HTTP 200 · code 100 · main: มี FT-BILL30 ({{promoBill}}), FT-ITEM10 ({{promoItem}}) ไม่มี FT-EXPIRED ({{promoExpired}}) · FT-ITEM10 trigger.applicableItemCodes = [&quot;9910011012000002&quot;] · อ้างอิง 4</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: [
+    {
+      &quot;id&quot;: null,
+      &quot;promotionid&quot;: 3,
+      &quot;promotionname&quot;: &quot;2 Drink Free mini canele&quot;,
+      &quot;description&quot;: &quot;2 Drink Free mini canele&quot;,
+      &quot;rewardtype&quot;: &quot;FreeItem&quot;,
+      &quot;qtypurchased&quot;: 1.0,
+      &quot;amountpurchased&quot;: 0.0,
+      &quot;trigger&quot;: [
+        {
+          &quot;qtyPurchased&quot;: 1.0,
+          &quot;amountPurchased&quot;: 0.0,
+          &quot;criteria&quot;: &quot;WHOLE_BILL&quot;,
+          &quot;applyToAllProduct&quot;: false,
+          &quot;applicableItemCodes&quot;: [
+            &quot;FGPK000001000001&quot;
+          ],
+          &quot;isRange&quot;: false
+        }
+      ],
+      &quot;reward&quot;: [
+        {
+          &quot;discountScope&quot;: null,
+          &quot;isAmountDiscount&quot;: null,
+          &quot;discountAmount&quot;: null,
+          &quot;discountPercent&quot;: null,
+          &quot;maximumDiscount&quot;: null,
+          &quot;specialPrice&quot;: null,
+          &quot;specialPriceType&quot;: null,
+          &quot;freeItemCode&quot;: &quot;FGFO000025000001&quot;,
+          &quot;freeItemDiscount&quot;: 100.0,
+          &quot;couponSeriesCode&quot;: null,
+          &quot;extraPoints&quot;: null,
+          &quot;isPercentExtraPoints&quot;: null,
+          &quot;useGetItemTotalAmount&quot;: false,
+          &quot;getItemTotalAmount&quot;: 1,
+          &quot;isItemAmountDiscount&quot;: false,
+          &quot;percentDiscountByItemPrice&quot;: null,
+          &quot;itemDiscounts&quot;: [
+            {
+              &quot;itemCode&quot;: &quot;FGFO000025000001&quot;,
+              &quot;discountPercent&quot;: 100.0,
+              &quot;discountAmount&quot;: null
+            }
+          ]
+        }
+      ],
+      &quot;limit&quot;: [
+        {
+          &quot;maxPerBill&quot;: 0,
+          &quot;maxQty&quot;: 0.0,
+          &quot;maxAmount&quot;: 0.0,
+          &quot;validity&quot;: {
+            &quot;beginDate&quot;: &quot;2026-10-29T13:00:00.577&quot;,
+            &quot;endDate&quot;: &quot;2026-11-30T18:00:00.577&quot;,
+            &quot;beginTime&quot;: &quot;13:00:00&quot;,
+            &quot;endTime&quot;: &quot;18:00:00&quot;,
+            &quot;days&quot;: null
+          },
+          &quot;channels&quot;: {
+            &quot;dineIn&quot;: true,
+            &quot;takeAway&quot;: true,
+            &quot;delivery&quot;: true
+          },
+          &quot;customerTypes&quot;: null,
+          &quot;requireCouponSeriesCode&quot;: null
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: null,
+      &quot;promotionid&quot;: 1,
+      &quot;promotionname&quot;: &quot;Thai Series Box Set special price 1,250 THB&quot;,
+      &quot;description&quot;: &quot;&quot;,
+      &quot;rewardtype&quot;: &quot;Discount&quot;,
+      &quot;qtypurchased&quot;: 1.0,
+      &quot;amountpurchased&quot;: 0.0,
+      &quot;trigger&quot;: [
+        {
+          &quot;qtyPurchased&quot;: 1.0,
+          &quot;amountPurchased&quot;: 0.0,
+          &quot;criteria&quot;: &quot;WHOLE_BILL&quot;,
+          &quot;applyToAllProduct&quot;: false,
+          &quot;applicableItemCodes&quot;: [
+            &quot;FGPK000001000002&quot;
+          ],
+          &quot;isRange&quot;: false
+        }
+      ],
+      &quot;reward&quot;: [
+        {
+          &quot;discountScope&quot;: &quot;APPLIED_ITEM&quot;,
+          &quot;isAmountDiscount&quot;: true,
+          &quot;discountAmount&quot;: 245.0,
+          &quot;discountPercent&quot;: null,
+          &quot;maximumDiscount&quot;: 0.0,
+          &quot;specialPrice&quot;: null,
+          &quot;specialPriceType&quot;: null,
+          &quot;freeItemCode&quot;: null,
+          &quot;freeItemDiscount&quot;: null,
+          &quot;couponSeriesCode&quot;: null,
+          &quot;extraPoints&quot;: null,
+          &quot;isPercentExtraPoints&quot;: null,
+          &quot;useGetItemTotalAmount&quot;: null,
+          &quot;getItemTotalAmount&quot;: null,
+          &quot;isItemAmountDiscount&quot;: null,
+          &quot;percentDiscountByItemPrice&quot;: false,
+          &quot;itemDiscounts&quot;: []
+        }
+      ],
+      &quot;limit&quot;: [
+        {
+          &quot;maxPerBill&quot;: 0,
+          &quot;maxQty&quot;: 0.0,
+          &quot;maxAmount&quot;: 0.0,
+          &quot;validity&quot;: {
+            &quot;beginDate&quot;: &quot;2026-10-29T13:32:03.223&quot;,
+            &quot;endDate&quot;: &quot;2026-11-30T13:32:03.223&quot;,
+            &quot;beginTime&quot;: null,
+            &quot;endTime&quot;: null,
+            &quot;days&quot;: null
+          },
+          &quot;channels&quot;: {
+            &quot;dineIn&quot;: true,
+            &quot;takeAway&quot;: true,
+            &quot;delivery&quot;: true
+          },
+          &quot;customerTypes&quot;: null,
+          &quot;requireCouponSeriesCode&quot;: null
+        }
+      ]
+    },
+    {
+      &quot;id&quot;: null,
+      &quot;promotionid&quot;: 2,
+      &quot;promotionname&quot;: &quot;Bakery Limited Hour ช่วงเวลา 9.00 ถึง 18.00 รับส่วนลด 50 บาท&quot;,
+      &quot;description&quot;: &quot;&quot;,
+      &quot;rewardtype&quot;: &quot;Discount&quot;,
+      &quot;qtypurchased&quot;: 1.0,
+      &quot;amountpurchased&quot;: 0.0,
+      &quot;trigger&quot;: [
+        {
+          &quot;qtyPurchased&quot;: 1.0,
+          &quot;amountPurchased&quot;: 0.0,
+          &quot;criteria&quot;: &quot;WHOLE_BILL&quot;,
+          &quot;applyToAllProduct&quot;: false,
+          &quot;applicableItemCodes&quot;: [
+            &quot;FGPK000001000003&quot;
+          ],
+          &quot;isRange&quot;: false
+        }
+      ],
+      &quot;reward&quot;: [
+        {
+          &quot;discountScope&quot;: &quot;APPLIED_ITEM&quot;,
+          &quot;isAmountDiscount&quot;: true,
+          &quot;discountAmount&quot;: 50.0,
+          &quot;discountPercent&quot;: null,
+          &quot;maximumDiscount&quot;: 0.0,
+          &quot;specialPrice&quot;: null,
+          &quot;specialPriceType&quot;: null,
+          &quot;freeItemCode&quot;: null,
+          &quot;freeItemDiscount&quot;: null,
+          &quot;couponSeriesCode&quot;: null,
+          &quot;extraPoints&quot;: null,
+          &quot;isPercentExtraPoints&quot;: null,
+          &quot;useGetItemTotalAmount&quot;: null,
+          &quot;getItemTotalAmount&quot;: null,
+          &quot;isItemAmountDiscount&quot;: null,
+          &quot;percentDiscountByItemPrice&quot;: false,
+          &quot;itemDiscounts&quot;: []
+        }
+      ],
+      &quot;limit&quot;: [
+        {
+          &quot;maxPerBill&quot;: 0,
+          &quot;maxQty&quot;: 0.0,
+          &quot;maxAmount&quot;: 0.0,
+          &quot;validity&quot;: {
+            &quot;beginDate&quot;: &quot;2026-10-29T09:00:00&quot;,
+            &quot;endDate&quot;: &quot;2026-11-30T19:00:00&quot;,
+            &quot;beginTime&quot;: &quot;09:00:00&quot;,
+            &quot;endTime&quot;: &quot;19:00:00&quot;,
+            &quot;days&quot;: null
+          },
+          &quot;channels&quot;: {
+            &quot;dineIn&quot;: true,
+            &quot;takeAway&quot;: true,
+            &quot;delivery&quot;: true
+          },
+          &quot;customerTypes&quot;: null,
+          &quot;requireCouponSeriesCode&quot;: null
+        }
+      ]
+    }
+  ]
+}</pre>
+      </div>
+    </div>
+  </div>
+</article><div class="group"><span class="en">3. HQ API — Authentication negatives</span><span class="th">3. HQ API — กรณียืนยันตัวตนไม่ผ่าน</span></div>
+<article class="ep" id="ep-26">
+  <div class="ep-h">
+    <span class="method GET">GET</span>
+    <span class="http err">HTTP 401</span>
+    <h3><span class="en">N15 Authentication — invalid key</span><span class="th">N15 — key ผิด</span></h3>
+    <span style="color:#667085;font-size:.78rem">126 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/promotion?branchcode=BEA_BK0014</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">คาดหวัง: HTTP 401</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: wrong-key-postman</div><div><span class="hk">projectname</span>: TRUNK</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <p class="empty"><span class="en">No request body</span><span class="th">ไม่มี request body</span></p>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;errorCode&quot;: &quot;401&quot;,
+  &quot;message&quot;: &quot;Invalid key.&quot;,
+  &quot;data&quot;: null
+}</pre>
+      </div>
+    </div>
+  </div>
+</article><div class="group"><span class="en">5. HQ API — UAT pricing</span><span class="th">5. HQ API — คำนวณราคา UAT</span></div>
+<article class="ep" id="ep-27">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">2B Price calculate — plain basket (UAT)</span><span class="th">2B calculate — plain (UAT)</span></h3>
+    <span style="color:#667085;font-size:.78rem">104 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/price/calculate</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 2B Price Calculate · 2 บรรทัดแรกของตะกร้า (ไม่มี package จึงไม่มีโปรที่ engine ใส่เองแบบ B10) ไม่ส่งโปร/คูปอง
+
+คาดหวัง: code 100 · discount 0 · originaltotal = total + discount
+
+stack: UAT (HQ_Kinduem_ERP_UAT, สาขา BEA_BK0014) · ตะกร้า = Active blend ×2 · Espresso Macchiato + modifier 8 ตัว · package Thai Series (FGPK000001000002) · โปร {{uatPromo}} = KDTEST01 (ลด 245 เมื่อมี package)</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;branchcode&quot;: &quot;BEA_BK0014&quot;,
+  &quot;deliverytype&quot;: &quot;Delivery&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;items&quot;: [
+    {
+      &quot;lineno&quot;: 1,
+      &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+      &quot;menuname&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 2,
+      &quot;menuprice&quot;: 120.0,
+      &quot;totalprice&quot;: 240.0,
+      &quot;itemmodifiers&quot;: []
+    },
+    {
+      &quot;lineno&quot;: 2,
+      &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+      &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 50.0,
+      &quot;totalprice&quot;: 50.0,
+      &quot;itemmodifiers&quot;: [
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000004&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000038&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000003&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000017&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000007&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000134&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000005&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000054&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000006&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000210&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000001&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000103&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000002&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000001&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000008&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000183&quot;,
+          &quot;quantity&quot;: 1
+        }
+      ]
+    }
+  ],
+  &quot;appliedPromotions&quot;: [],
+  &quot;appliedCoupons&quot;: []
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: {
+    &quot;originaltotal&quot;: 675.0,
+    &quot;subtotal&quot;: 630.84,
+    &quot;tax&quot;: 44.16,
+    &quot;discount&quot;: 0.0,
+    &quot;total&quot;: 675.0,
+    &quot;items&quot;: [
+      {
+        &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+        &quot;lineno&quot;: 1,
+        &quot;menuname&quot;: &quot;Active blend&quot;,
+        &quot;quantity&quot;: 2.0,
+        &quot;menuprice&quot;: 120.0,
+        &quot;totalprice&quot;: 240.0,
+        &quot;discountamount&quot;: 0.0,
+        &quot;memberdiscountamount&quot;: 0.0,
+        &quot;coupondiscountamount&quot;: 0.0,
+        &quot;subtotal&quot;: 224.3,
+        &quot;tax&quot;: 15.7
+      },
+      {
+        &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+        &quot;lineno&quot;: 2,
+        &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+        &quot;quantity&quot;: 1.0,
+        &quot;menuprice&quot;: 50.0,
+        &quot;totalprice&quot;: 435.0,
+        &quot;discountamount&quot;: 0.0,
+        &quot;memberdiscountamount&quot;: 0.0,
+        &quot;coupondiscountamount&quot;: 0.0,
+        &quot;subtotal&quot;: 406.54,
+        &quot;tax&quot;: 28.46
+      }
+    ],
+    &quot;appliedCoupons&quot;: [],
+    &quot;appliedPromotions&quot;: []
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-28">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">2B Price calculate — promotion + coupon (UAT)</span><span class="th">2B calculate — promo + coupon (UAT)</span></h3>
+    <span style="color:#667085;font-size:.78rem">202 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/price/calculate</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 2B Price Calculate · โปร {{uatPromo}} + คูปอง {{couponSeries}} / {{couponNumber}}
+
+คาดหวัง: code 100 · originaltotal = total + discount
+
+stack: UAT (HQ_Kinduem_ERP_UAT, สาขา BEA_BK0014) · ตะกร้า = Active blend ×2 · Espresso Macchiato + modifier 8 ตัว · package Thai Series (FGPK000001000002) · โปร {{uatPromo}} = KDTEST01 (ลด 245 เมื่อมี package)
+
+บน UAT ยังผ่านไม่ได้: ไม่มี CouponSeries ไหนเปิด IsUseOnlineOrders (ต้องรอ D2) → คูปองได้ 311 &quot;coupon series … is not usable at this branch today&quot; / ไม่ถูกเสนอใน availa…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;branchcode&quot;: &quot;BEA_BK0014&quot;,
+  &quot;deliverytype&quot;: &quot;Delivery&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;items&quot;: [
+    {
+      &quot;lineno&quot;: 1,
+      &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+      &quot;menuname&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 2,
+      &quot;menuprice&quot;: 120.0,
+      &quot;totalprice&quot;: 240.0,
+      &quot;itemmodifiers&quot;: []
+    },
+    {
+      &quot;lineno&quot;: 2,
+      &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+      &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 50.0,
+      &quot;totalprice&quot;: 50.0,
+      &quot;itemmodifiers&quot;: [
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000004&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000038&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000003&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000017&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000007&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000134&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000005&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000054&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000006&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000210&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000001&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000103&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000002&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000001&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000008&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000183&quot;,
+          &quot;quantity&quot;: 1
+        }
+      ]
+    },
+    {
+      &quot;lineno&quot;: 3,
+      &quot;itemcode&quot;: &quot;FGPK000001000002&quot;,
+      &quot;menuname&quot;: &quot;Thai Series Box Set special price 1,250 THB&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 0.0,
+      &quot;totalprice&quot;: 0.0,
+      &quot;itemmodifiers&quot;: [],
+      &quot;itempackage&quot;: [
+        {
+          &quot;packageitemid&quot;: 84,
+          &quot;itemcode&quot;: &quot;FGCB000002000048&quot;,
+          &quot;menuname&quot;: &quot;TH-S1 Mae Yen Mae Hong Son 180g-bottle&quot;,
+          &quot;quantity&quot;: 1,
+          &quot;itemmodifiers&quot;: []
+        }
+      ]
+    }
+  ],
+  &quot;appliedPromotions&quot;: [
+    {
+      &quot;promotionid&quot;: 1
+    }
+  ],
+  &quot;appliedCoupons&quot;: [
+    {
+      &quot;couponSeriesCode&quot;: &quot;BEANS_CP239&quot;,
+      &quot;couponNumber&quot;: &quot;AIS2000001&quot;
+    }
+  ]
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: {
+    &quot;originaltotal&quot;: 1125.0,
+    &quot;subtotal&quot;: 803.74,
+    &quot;tax&quot;: 56.26,
+    &quot;discount&quot;: 265.0,
+    &quot;total&quot;: 860.0,
+    &quot;items&quot;: [
+      {
+        &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+        &quot;lineno&quot;: 1,
+        &quot;menuname&quot;: &quot;Active blend&quot;,
+        &quot;quantity&quot;: 2.0,
+        &quot;menuprice&quot;: 120.0,
+        &quot;totalprice&quot;: 240.0,
+        &quot;discountamount&quot;: 51.64,
+        &quot;memberdiscountamount&quot;: 0.0,
+        &quot;coupondiscountamount&quot;: 7.12,
+        &quot;subtotal&quot;: 169.39,
+        &quot;tax&quot;: 11.85
+      },
+      {
+        &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+        &quot;lineno&quot;: 2,
+        &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+        &quot;quantity&quot;: 1.0,
+        &quot;menuprice&quot;: 50.0,
+        &quot;totalprice&quot;: 435.0,
+        &quot;discountamount&quot;: 93.59,
+        &quot;memberdiscountamount&quot;: 0.0,
+        &quot;coupondiscountamount&quot;: 12.88,
+        &quot;subtotal&quot;: 307.03,
+        &quot;tax&quot;: 21.5
+      },
+      {
+        &quot;itemcode&quot;: &quot;FGPK000001000002&quot;,
+        &quot;lineno&quot;: 3,
+        &quot;menuname&quot;: &quot;Thai Series Box Set special price 1,250 THB&quot;,
+        &quot;quantity&quot;: 1.0,
+        &quot;menuprice&quot;: 0.0,
+        &quot;totalprice&quot;: 450.0,
+        &quot;discountamount&quot;: 99.77,
+        &quot;memberdiscountamount&quot;: 0.0,
+        &quot;coupondiscountamount&quot;: 0.0,
+        &quot;subtotal&quot;: 327.32,
+        &quot;tax&quot;: 22.91
+      }
+    ],
+    &quot;appliedCoupons&quot;: [
+      {
+        &quot;isCRMCoupon&quot;: false,
+        &quot;couponSeriesCode&quot;: &quot;BEANS_CP239&quot;,
+        &quot;couponNumber&quot;: &quot;AIS2000001&quot;,
+        &quot;couponName&quot;: &quot;AIS 25 points get 20 THB&quot;,
+        &quot;couponReward&quot;: 20.0,
+        &quot;couponType&quot;: 1,
+        &quot;isPercentDiscount&quot;: false,
+        &quot;itemcode&quot;: null,
+        &quot;lineno&quot;: null
+      }
+    ],
+    &quot;appliedPromotions&quot;: [
+      {
+        &quot;id&quot;: &quot;e4db7c55-fecc-4b9f-a86e-4e805bdc8f4d&quot;,
+        &quot;promotionid&quot;: 1,
+        &quot;campaignid&quot;: &quot;KDTEST01&quot;,
+        &quot;promotiondiscount&quot;: 245.0,
+        &quot;itempromotions&quot;: [
+          {
+            &quot;itemCode&quot;: &quot;FGPK000001000002&quot;,
+            &quot;lineno&quot;: 3
+          }
+        ]
+      }
+    ]
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-29">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">2B Price calculate — coupon not found → 311 (UAT)</span><span class="th">2B calculate — คูปองไม่พบ → 311 (UAT)</span></h3>
+    <span style="color:#667085;font-size:.78rem">245 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/price/calculate</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 2B Price Calculate + Response Codes 311 · series {{couponSeries}} + เลขคูปองที่ไม่มี
+
+คาดหวัง: code 311
+
+stack: UAT (HQ_Kinduem_ERP_UAT, สาขา BEA_BK0014) · ตะกร้า = Active blend ×2 · Espresso Macchiato + modifier 8 ตัว · package Thai Series (FGPK000001000002) · โปร {{uatPromo}} = KDTEST01 (ลด 245 เมื่อมี package)</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;branchcode&quot;: &quot;BEA_BK0014&quot;,
+  &quot;deliverytype&quot;: &quot;Delivery&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;items&quot;: [
+    {
+      &quot;lineno&quot;: 1,
+      &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+      &quot;menuname&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 2,
+      &quot;menuprice&quot;: 120.0,
+      &quot;totalprice&quot;: 240.0,
+      &quot;itemmodifiers&quot;: []
+    },
+    {
+      &quot;lineno&quot;: 2,
+      &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+      &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 50.0,
+      &quot;totalprice&quot;: 50.0,
+      &quot;itemmodifiers&quot;: [
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000004&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000038&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000003&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000017&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000007&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000134&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000005&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000054&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000006&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000210&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000001&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000103&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000002&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000001&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000008&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000183&quot;,
+          &quot;quantity&quot;: 1
+        }
+      ]
+    },
+    {
+      &quot;lineno&quot;: 3,
+      &quot;itemcode&quot;: &quot;FGPK000001000002&quot;,
+      &quot;menuname&quot;: &quot;Thai Series Box Set special price 1,250 THB&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 0.0,
+      &quot;totalprice&quot;: 0.0,
+      &quot;itemmodifiers&quot;: [],
+      &quot;itempackage&quot;: [
+        {
+          &quot;packageitemid&quot;: 84,
+          &quot;itemcode&quot;: &quot;FGCB000002000048&quot;,
+          &quot;menuname&quot;: &quot;TH-S1 Mae Yen Mae Hong Son 180g-bottle&quot;,
+          &quot;quantity&quot;: 1,
+          &quot;itemmodifiers&quot;: []
+        }
+      ]
+    }
+  ],
+  &quot;appliedPromotions&quot;: [],
+  &quot;appliedCoupons&quot;: [
+    {
+      &quot;couponSeriesCode&quot;: &quot;BEANS_CP239&quot;,
+      &quot;couponNumber&quot;: &quot;NO-SUCH-COUPON&quot;
+    }
+  ]
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: false,
+  &quot;code&quot;: &quot;311&quot;,
+  &quot;message&quot;: &quot;coupon &#x27;NO-SUCH-COUPON&#x27; is not found or not active&quot;,
+  &quot;data&quot;: null
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-30">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">2B Price calculate — promotion not applicable → 312 (UAT)</span><span class="th">2B calculate — โปรใช้กับตะกร้านี้ไม่ได้ → 312 (UAT)</span></h3>
+    <span style="color:#667085;font-size:.78rem">108 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/price/calculate</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 2B Price Calculate + Response Codes 312 · UAT ไม่มีโปรหมดอายุ (มี 3 โปร ใช้ได้ถึง 2026-11-30 ทั้งหมด) จึงใช้โปร {{uatPromo}} กับตะกร้าที่ไม่มี package ของโปร (แบบ B13)
+
+คาดหวัง: code 312 &quot;promotion … does not apply to this cart&quot;
+
+stack: UAT (HQ_Kinduem_ERP_UAT, สาขา BEA_BK0014) · ตะกร้า = Active blend ×2 · Espresso Macchiato + modifier 8 ตัว · package Thai Series (FGPK000001000002) · โปร {{uatPromo}} = KDTEST01 (ลด 245 เมื่อมี package)</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;branchcode&quot;: &quot;BEA_BK0014&quot;,
+  &quot;deliverytype&quot;: &quot;Delivery&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;items&quot;: [
+    {
+      &quot;lineno&quot;: 1,
+      &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+      &quot;menuname&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 2,
+      &quot;menuprice&quot;: 120.0,
+      &quot;totalprice&quot;: 240.0,
+      &quot;itemmodifiers&quot;: []
+    },
+    {
+      &quot;lineno&quot;: 2,
+      &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+      &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 50.0,
+      &quot;totalprice&quot;: 50.0,
+      &quot;itemmodifiers&quot;: [
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000004&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000038&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000003&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000017&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000007&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000134&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000005&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000054&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000006&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000210&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000001&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000103&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000002&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000001&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000008&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000183&quot;,
+          &quot;quantity&quot;: 1
+        }
+      ]
+    }
+  ],
+  &quot;appliedPromotions&quot;: [
+    {
+      &quot;promotionid&quot;: 1
+    }
+  ],
+  &quot;appliedCoupons&quot;: []
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: false,
+  &quot;code&quot;: &quot;312&quot;,
+  &quot;message&quot;: &quot;promotion 1 does not apply to this cart&quot;,
+  &quot;data&quot;: null
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-31">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">2B Price calculate — unknown itemcode → 301 (UAT)</span><span class="th">2B calculate — itemcode ไม่มี → 301 (UAT)</span></h3>
+    <span style="color:#667085;font-size:.78rem">66 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/price/calculate</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 2B Price Calculate + Response Codes 301
+
+คาดหวัง: code 301
+
+stack: UAT (HQ_Kinduem_ERP_UAT, สาขา BEA_BK0014) · ตะกร้า = Active blend ×2 · Espresso Macchiato + modifier 8 ตัว · package Thai Series (FGPK000001000002) · โปร {{uatPromo}} = KDTEST01 (ลด 245 เมื่อมี package)</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;branchcode&quot;: &quot;BEA_BK0014&quot;,
+  &quot;deliverytype&quot;: &quot;Delivery&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;items&quot;: [
+    {
+      &quot;lineno&quot;: 1,
+      &quot;itemcode&quot;: &quot;NO-SUCH-ITEM&quot;,
+      &quot;menuname&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 2,
+      &quot;menuprice&quot;: 120.0,
+      &quot;totalprice&quot;: 240.0,
+      &quot;itemmodifiers&quot;: []
+    },
+    {
+      &quot;lineno&quot;: 2,
+      &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+      &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 50.0,
+      &quot;totalprice&quot;: 50.0,
+      &quot;itemmodifiers&quot;: [
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000004&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000038&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000003&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000017&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000007&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000134&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000005&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000054&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000006&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000210&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000001&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000103&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000002&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000001&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000008&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000183&quot;,
+          &quot;quantity&quot;: 1
+        }
+      ]
+    },
+    {
+      &quot;lineno&quot;: 3,
+      &quot;itemcode&quot;: &quot;FGPK000001000002&quot;,
+      &quot;menuname&quot;: &quot;Thai Series Box Set special price 1,250 THB&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 0.0,
+      &quot;totalprice&quot;: 0.0,
+      &quot;itemmodifiers&quot;: [],
+      &quot;itempackage&quot;: [
+        {
+          &quot;packageitemid&quot;: 84,
+          &quot;itemcode&quot;: &quot;FGCB000002000048&quot;,
+          &quot;menuname&quot;: &quot;TH-S1 Mae Yen Mae Hong Son 180g-bottle&quot;,
+          &quot;quantity&quot;: 1,
+          &quot;itemmodifiers&quot;: []
+        }
+      ]
+    }
+  ],
+  &quot;appliedPromotions&quot;: [],
+  &quot;appliedCoupons&quot;: []
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: false,
+  &quot;code&quot;: &quot;301&quot;,
+  &quot;message&quot;: &quot;itemcode &#x27;NO-SUCH-ITEM&#x27; (lineno 1) is not sold at this branch&quot;,
+  &quot;data&quot;: null
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+<article class="ep" id="ep-32">
+  <div class="ep-h">
+    <span class="method POST">POST</span>
+    <span class="http ok">HTTP 200</span>
+    <h3><span class="en">2A Available discounts — 3-line basket (UAT)</span><span class="th">2A discounts — ตะกร้า 3 บรรทัด (UAT)</span></h3>
+    <span style="color:#667085;font-size:.78rem">126 ms</span>
+  </div>
+  <div class="ep-b">
+    <div class="path">http://infosever.thaiddns.com:8095/api/price/discounts</div>
+    <p class="desc"><span class="en">Technical contract sample from the UAT Postman collection. Expected HTTP status and business codes are those asserted by the automated tests for this operation. See the Thai notes for partner workbook references where applicable.</span><span class="th">ชีต 2A Price Discount · ไม่ apply อะไร
+
+คาดหวัง: code 100 · availablePromotions มีโปร {{uatPromo}} · availableCoupons มี {{couponSeries}}
+
+stack: UAT (HQ_Kinduem_ERP_UAT, สาขา BEA_BK0014) · ตะกร้า = Active blend ×2 · Espresso Macchiato + modifier 8 ตัว · package Thai Series (FGPK000001000002) · โปร {{uatPromo}} = KDTEST01 (ลด 245 เมื่อมี package)
+
+บน UAT ยังผ่านไม่ได้: ไม่มี CouponSeries ไหนเปิด IsUseOnlineOrders (ต้องรอ D2) → คูปองได้ 311 &quot;coupon series … is not usable at this branch today&quot; / ไม่ถูกเสนอใน availabl…</span></p>
+    <div class="lbl"><span><span class="en">Request headers</span><span class="th">Request headers</span></span></div>
+    <div class="hdrs"><div><span class="hk">key</span>: ***UAT_KEY***</div><div><span class="hk">projectname</span>: TRUNK</div><div><span class="hk">Content-Type</span>: application/json</div></div>
+    <div class="pair">
+      <div>
+        <div class="lbl"><span><span class="en">Request body (JSON)</span><span class="th">Request body (JSON)</span></span></div>
+        <pre class="json">{
+  &quot;branchcode&quot;: &quot;BEA_BK0014&quot;,
+  &quot;deliverytype&quot;: &quot;Delivery&quot;,
+  &quot;vendorId&quot;: 7,
+  &quot;items&quot;: [
+    {
+      &quot;lineno&quot;: 1,
+      &quot;itemcode&quot;: &quot;FGBV000040000001&quot;,
+      &quot;menuname&quot;: &quot;Active blend&quot;,
+      &quot;quantity&quot;: 2,
+      &quot;menuprice&quot;: 120.0,
+      &quot;totalprice&quot;: 240.0,
+      &quot;itemmodifiers&quot;: []
+    },
+    {
+      &quot;lineno&quot;: 2,
+      &quot;itemcode&quot;: &quot;FGBV000039000001&quot;,
+      &quot;menuname&quot;: &quot;Espresso Macchiato&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 50.0,
+      &quot;totalprice&quot;: 50.0,
+      &quot;itemmodifiers&quot;: [
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000004&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000038&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000003&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000017&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000007&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000134&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000005&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000054&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000006&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000210&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000001&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000103&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000002&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000001&quot;,
+          &quot;quantity&quot;: 1
+        },
+        {
+          &quot;modifiercode&quot;: &quot;MBEAN_0000008&quot;,
+          &quot;choicecode&quot;: &quot;FGBV000038000183&quot;,
+          &quot;quantity&quot;: 1
+        }
+      ]
+    },
+    {
+      &quot;lineno&quot;: 3,
+      &quot;itemcode&quot;: &quot;FGPK000001000002&quot;,
+      &quot;menuname&quot;: &quot;Thai Series Box Set special price 1,250 THB&quot;,
+      &quot;quantity&quot;: 1,
+      &quot;menuprice&quot;: 0.0,
+      &quot;totalprice&quot;: 0.0,
+      &quot;itemmodifiers&quot;: [],
+      &quot;itempackage&quot;: [
+        {
+          &quot;packageitemid&quot;: 84,
+          &quot;itemcode&quot;: &quot;FGCB000002000048&quot;,
+          &quot;menuname&quot;: &quot;TH-S1 Mae Yen Mae Hong Son 180g-bottle&quot;,
+          &quot;quantity&quot;: 1,
+          &quot;itemmodifiers&quot;: []
+        }
+      ]
+    }
+  ],
+  &quot;appliedPromotions&quot;: [],
+  &quot;appliedCoupons&quot;: []
+}</pre>
+      </div>
+      <div>
+        <div class="lbl"><span><span class="en">Response body (JSON)</span><span class="th">Response body (JSON)</span></span><span class="en">UAT capture</span><span class="th">บันทึกจาก UAT</span></div>
+        <pre class="json">{
+  &quot;isok&quot;: true,
+  &quot;code&quot;: &quot;100&quot;,
+  &quot;message&quot;: &quot;success&quot;,
+  &quot;data&quot;: {
+    &quot;availableCoupons&quot;: [
+      {
+        &quot;isCRMCoupon&quot;: false,
+        &quot;couponSeriesCode&quot;: &quot;BEANS_CP239&quot;,
+        &quot;couponName&quot;: &quot;AIS 25 points get 20 THB&quot;,
+        &quot;couponType&quot;: 1,
+        &quot;isPercentDiscount&quot;: false,
+        &quot;discountAmount&quot;: 20.0,
+        &quot;maximumDiscount&quot;: 0.0,
+        &quot;couponAmount&quot;: 0.0,
+        &quot;minPurchaseValue&quot;: 0.0,
+        &quot;startDate&quot;: &quot;2026-08-27T00:00:00&quot;,
+        &quot;expireDate&quot;: &quot;2026-12-31T23:59:59&quot;,
+        &quot;allowUseWithPromotion&quot;: false,
+        &quot;allowCombineWithOtherCoupons&quot;: true,
+        &quot;maxPerBill&quot;: 1,
+        &quot;isApplyToAllItems&quot;: true,
+        &quot;applyToItems&quot;: []
+      }
+    ],
+    &quot;availablePromotions&quot;: [
+      {
+        &quot;id&quot;: null,
+        &quot;promotionid&quot;: 1,
+        &quot;promotionname&quot;: &quot;Thai Series Box Set special price 1,250 THB&quot;,
+        &quot;description&quot;: &quot;&quot;,
+        &quot;rewardtype&quot;: &quot;Discount&quot;,
+        &quot;qtypurchased&quot;: 1.0,
+        &quot;amountpurchased&quot;: 0.0,
+        &quot;trigger&quot;: [
+          {
+            &quot;qtyPurchased&quot;: 1.0,
+            &quot;amountPurchased&quot;: 0.0,
+            &quot;criteria&quot;: &quot;WHOLE_BILL&quot;,
+            &quot;applyToAllProduct&quot;: false,
+            &quot;applicableItemCodes&quot;: [
+              &quot;FGPK000001000002&quot;
+            ],
+            &quot;isRange&quot;: false
+          }
+        ],
+        &quot;reward&quot;: [
+          {
+            &quot;discountScope&quot;: &quot;APPLIED_ITEM&quot;,
+            &quot;isAmountDiscount&quot;: true,
+            &quot;discountAmount&quot;: 245.0,
+            &quot;discountPercent&quot;: null,
+            &quot;maximumDiscount&quot;: 0.0,
+            &quot;specialPrice&quot;: null,
+            &quot;specialPriceType&quot;: null,
+            &quot;freeItemCode&quot;: null,
+            &quot;freeItemDiscount&quot;: null,
+            &quot;couponSeriesCode&quot;: null,
+            &quot;extraPoints&quot;: null,
+            &quot;isPercentExtraPoints&quot;: null,
+            &quot;useGetItemTotalAmount&quot;: null,
+            &quot;getItemTotalAmount&quot;: null,
+            &quot;isItemAmountDiscount&quot;: null,
+            &quot;percentDiscountByItemPrice&quot;: false,
+            &quot;itemDiscounts&quot;: []
+          }
+        ],
+        &quot;limit&quot;: [
+          {
+            &quot;maxPerBill&quot;: 0,
+            &quot;maxQty&quot;: 0.0,
+            &quot;maxAmount&quot;: 0.0,
+            &quot;validity&quot;: {
+              &quot;beginDate&quot;: &quot;2026-10-29T13:32:03.223&quot;,
+              &quot;endDate&quot;: &quot;2026-11-30T13:32:03.223&quot;,
+              &quot;beginTime&quot;: null,
+              &quot;endTime&quot;: null,
+              &quot;days&quot;: null
+            },
+            &quot;channels&quot;: {
+              &quot;dineIn&quot;: true,
+              &quot;takeAway&quot;: true,
+              &quot;delivery&quot;: true
+            },
+            &quot;customerTypes&quot;: null,
+            &quot;requireCouponSeriesCode&quot;: null
+          }
+        ]
+      }
+    ]
+  }
+}</pre>
+      </div>
+    </div>
+  </div>
+</article>
+  <section class="block" id="notes">
+    <h2><span class="en">6. Compliance and improvement notes</span><span class="th">6. หมายเหตุการปฏิบัติตามมาตรฐานและแนวทางปรับปรุง</span></h2>
+    <table>
+      <thead><tr><th><span class="en">Topic</span><span class="th">หัวข้อ</span></th><th><span class="en">Current UAT observation</span><span class="th">ข้อสังเกตบน UAT</span></th><th><span class="en">Recommended direction</span><span class="th">ทิศทางที่แนะนำ</span></th></tr></thead>
+      <tbody>
+        <tr>
+          <td>Transport</td>
+          <td><span class="en">HTTP only</span><span class="th">HTTP เท่านั้น</span></td>
+          <td>TLS 1.2+</td>
+        </tr>
+        <tr>
+          <td>Authentication</td>
+          <td><span class="en">Custom <code>key</code> header</span><span class="th">Header <code>key</code> แบบกำหนดเอง</span></td>
+          <td><span class="en"><code>Authorization</code> per RFC 7235/9110</span><span class="th"><code>Authorization</code> ตาม RFC 7235/9110</span></td>
+        </tr>
+        <tr>
+          <td>HTTP semantics</td>
+          <td><span class="en">Many business errors under HTTP 200</span><span class="th">error ธุรกิจหลายกรณีอยู่ใต้ HTTP 200</span></td>
+          <td><span class="en">Use 4xx/409/422 with business detail in body</span><span class="th">ใช้ 4xx/409/422 และใส่รายละเอียดใน body</span></td>
+        </tr>
+        <tr>
+          <td>Contract</td>
+          <td><span class="en">Postman collection evidence</span><span class="th">หลักฐานจาก Postman collection</span></td>
+          <td>OpenAPI 3.x</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <footer>
+    <div><strong>DOC-API-UAT-001</strong> · Reggu ↔ BEANS · UAT · v1.0 · 2026-11-18</div>
+    <div class="en">Generated from verified Postman execution evidence. For partner review and internal QA use.</div>
+    <div class="th">สร้างจากหลักฐานการรัน Postman ที่ผ่านการทวนสอบ สำหรับการทบทวนของพาร์ทเนอร์และ QA ภายใน</div>
+  </footer>
+</main>
+</div>
+<script>
+function setLang(lang){
+  document.documentElement.lang=lang;
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.getElementById('btn-th').classList.toggle('active', lang==='th');
+  try{localStorage.setItem('reggu-api-doc-lang',lang)}catch(e){}
+}
+(function(){
+  var s=null; try{s=localStorage.getItem('reggu-api-doc-lang')}catch(e){}
+  setLang(s==='th'?'th':'en');
+})();
+</script>
+</body>
+</html>
